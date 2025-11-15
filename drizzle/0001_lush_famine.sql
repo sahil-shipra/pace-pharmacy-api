@@ -1,0 +1,2 @@
+ALTER TABLE "accounts" ADD COLUMN "preferred_location" integer DEFAULT 1 NOT NULL;--> statement-breakpoint
+ALTER TABLE "accounts" ADD CONSTRAINT "accounts_preferred_location_pharmacy_locations_id_fk" FOREIGN KEY ("preferred_location") REFERENCES "public"."pharmacy_locations"("id") ON DELETE no action ON UPDATE no action;

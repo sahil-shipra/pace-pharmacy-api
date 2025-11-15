@@ -1,0 +1,1 @@
+ALTER TABLE "pharmacy_locations" ADD COLUMN "key" text NOT NULL;
