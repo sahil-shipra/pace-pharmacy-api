@@ -53,18 +53,6 @@ const postAccount = factory.createHandlers(
             const clinicName = data.account.account.organizationName;
             const isAlsoMedicalDirector = data.medical.isAlsoMedicalDirector ?? false
 
-            console.log(
-                {
-                    isAlsoMedicalDirector,
-                    directorEmail,
-                    directorName,
-
-                    accountHolderEmail,
-                    accountHolderName,
-                    clinicName,
-                    referenceCode
-                }
-            )
             sendEmailToNewAccount({
                 isAlsoMedicalDirector,
                 directorEmail,
