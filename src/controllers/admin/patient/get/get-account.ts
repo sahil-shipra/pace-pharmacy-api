@@ -17,7 +17,7 @@ export async function getAllAccounts() {
 
 // Get paginated patient intakes with required fields
 export async function getPaginatedPatientIntakes(
-    page: number = 1, 
+    page: number = 1,
     pageSize: number = 15,
     preferredLocation: "all" | "leaside" | "downtown" = "all",
     authStatus: "all" | "pending" | "completed" = "all"
@@ -55,6 +55,7 @@ export async function getPaginatedPatientIntakes(
     // Get paginated data with filters
     const results = await db
         .select({
+            accountId: accounts.id,
             createdAt: accounts.createdAt,
             updatedAt: accounts.updatedAt,
             accountHolderName: accounts.holderName,
@@ -127,4 +128,45 @@ export async function getPatientIntakeStatistics(
         completed: Number(stats?.completed || 0),
         authPending: Number(stats?.authPending || 0),
     };
+}
+
+
+export async function getCompleteAccount(accountId: number) {
+    const [accountRows, addressesData] = await Promise.all([
+        db
+            .select()
+            .from(accounts)
+            .leftJoin(acknowledgements, eq(accounts.id, acknowledgements.accountId))
+            .leftJoin(deliverySettings, eq(accounts.id, deliverySettings.accountId))
+            .leftJoin(medicalDirectors, eq(accounts.id, medicalDirectors.accountId))
+            .leftJoin(paymentInformation, eq(accounts.id, paymentInformation.accountId))
+            .leftJoin(applications, eq(accounts.id, applications.accountId))
+            .where(eq(accounts.id, accountId)),
+        db.query.addresses.findMany({ where: eq(addresses.accountId, accountId) }),
+    ]);
+
+    if (!accountRows.length) return null;
+
+    const account = accountRows[0];
+    if (!account) return null;
+
+    return {
+        ...account,
+        addresses: addressesData,
+    };
+}
+
+export async function getAccountWithMedicalDirectors(accountId: number) {
+    const rows = await db
+        .select()
+        .from(accounts)
+        .leftJoin(medicalDirectors, eq(accounts.id, medicalDirectors.accountId))
+        .leftJoin(applications, eq(accounts.id, applications.accountId))
+        .where(eq(accounts.id, accountId));
+
+    if (!rows.length) return null;
+
+    const account = rows[0];
+
+    return account;
 }

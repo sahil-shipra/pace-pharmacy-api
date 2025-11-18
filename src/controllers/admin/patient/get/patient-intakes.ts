@@ -17,7 +17,7 @@ const requestSchema = z.object({
 const patientIntakes = factory.createHandlers(
     describeRoute({
         tags: ["Patient"],
-        summary: "Patient Intakes",
+        summary: "Get All Patients",
         description: "Get paginated list of patient intakes",
         responses: {
             200: {

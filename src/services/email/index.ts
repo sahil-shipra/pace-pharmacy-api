@@ -1,7 +1,17 @@
 import postmark from 'postmark';
-import { renderMjmlTemplate } from './email-template';
 import { db } from '@/db';
 import { emails } from '@/db/schema/emails';
+
+
+const emailLogToDb = async (result: postmark.Models.MessageSendingResponse, subject: string, to: string) => {
+    await db.insert(emails).values({
+        messageId: result.MessageID,
+        status: result.Message,
+        subject,
+        submittedAt: new Date(result.SubmittedAt),
+        to,
+    });
+}
 
 // Example 1: Send a simple email
 export async function sendSimpleEmail(
@@ -30,13 +40,11 @@ export async function sendSimpleEmail(
             MessageStream: 'outbound'
         });
 
-        await db.insert(emails).values({
-            messageId: result.MessageID,
-            status: result.Message,
+        emailLogToDb(
+            result,
             subject,
-            submittedAt: new Date(result.SubmittedAt),
-            to,
-        });
+            to
+        )
 
         console.log('Email sent successfully!');
         console.log('Message ID:', result.MessageID);

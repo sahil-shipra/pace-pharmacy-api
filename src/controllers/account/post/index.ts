@@ -2,12 +2,9 @@ import { describeRoute, resolver, validator } from "hono-openapi";
 import { createFactory } from "hono/factory";
 import { requestSchema, responseSchema } from "./schema";
 import { createAccount, DatabaseError } from "./create-account";
-import { renderMjmlTemplate } from "../../../services/email/email-template";
-import { sendSimpleEmail } from "../../../services/email";
 import { generateReferenceCode } from "../../../services";
 import { createErrorResponse, createSuccessResponse } from "../../_schemas";
-import { accountHolderAuthorizationComplete } from "@/controllers/application/post/utils";
-import { format } from "date-fns";
+import { fileUpload, sendEmailToNewAccount } from "../utils";
 const factory = createFactory();
 
 const postAccount = factory.createHandlers(
@@ -26,12 +23,26 @@ const postAccount = factory.createHandlers(
             },
         },
     }),
-    validator("json", requestSchema),
+    // validator("json", requestSchema),
     async (c) => {
         try {
-            const data = c.req.valid("json");
+            // const data = c.req.valid("json");
+            const formData = await c.req.formData()
+            const files = formData.getAll('documents')
+
+            const jsonString = formData.get('json');
+            let data;
+            if (typeof jsonString === 'string') {
+                data = JSON.parse(jsonString);
+            } else {
+                throw new Error('No JSON data found in formData');
+            }
+
             const referenceCode = generateReferenceCode();
-            const dateTime = format(new Date(), "dd/MM/yyyy hh:mm aa")
+
+            if (files && files.length) {
+                await fileUpload(formData, referenceCode)
+            }
 
             await createAccount(data, referenceCode);
 
@@ -40,61 +51,39 @@ const postAccount = factory.createHandlers(
             const directorName = data.medical.name;
             const accountHolderName = data.account.account.holderName;
             const clinicName = data.account.account.organizationName;
+            const isAlsoMedicalDirector = data.medical.isAlsoMedicalDirector ?? false
 
-            if (!data.medical.isAlsoMedicalDirector) {
-                await sendSimpleEmail({
-                    to: accountHolderEmail,
-                    subject: 'Medical Director Authorization Request',
-                    body: renderMjmlTemplate('medical-director-authorization-request', {
-                        title: 'Medical Director Authorization Request',
-                        directorName,
-                        accountHolderName,
-                        clinicName,
-                        application: referenceCode,
-                        link: `https://pacepharmacy.com/account-setup?code=${referenceCode}`
-                    })
-                })
+            console.log(
+                {
+                    isAlsoMedicalDirector,
+                    directorEmail,
+                    directorName,
 
-                await sendSimpleEmail({
-                    to: directorEmail,
-                    subject: 'Account Holder Confirmation',
-                    body: renderMjmlTemplate('account-holder-confirmation', {
-                        title: 'Account Holder Confirmation',
-                        directorName,
-                        directorEmail: directorEmail,
-                        accountHolderName,
-                        clinicName,
-                        application: referenceCode,
-                        submittedDateTime: 'Test'
-                    })
-                })
-            } else {
-                await sendSimpleEmail({
-                    to: accountHolderEmail,
-                    subject: 'Account Holder - Medical Director Authorization Complete',
-                    body: renderMjmlTemplate('common', {
-                        title: 'Account Holder - Medical Director Authorization Complete',
-                        content: accountHolderAuthorizationComplete(
-                            {
-                                accountHolderName,
-                                medicalDirectorName: data.medical.name,
-                                referenceCode,
-                                dateTime,
-                                skipAuthorization: true
-                            }
-                        )
-                    })
-                })
-            }
+                    accountHolderEmail,
+                    accountHolderName,
+                    clinicName,
+                    referenceCode
+                }
+            )
+            sendEmailToNewAccount({
+                isAlsoMedicalDirector,
+                directorEmail,
+                directorName,
+
+                accountHolderEmail,
+                accountHolderName,
+                clinicName,
+                referenceCode
+            })
 
             return c.json(createSuccessResponse({
                 referenceCode
             }));
         } catch (error: any) {
-            console.error('error', error.cause)
+            console.error('error', error)
             const err = error.cause;
 
-            if (err instanceof DatabaseError || error.cause.code) {
+            if (err instanceof DatabaseError || (error.cause && error.cause.code)) {
                 const field = getDuplicateField(err);
                 const friendlyField = getFriendlyFieldName(field);
 
