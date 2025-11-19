@@ -72,11 +72,11 @@ export function accountHolderAuthorizationComplete(
 ) {
   return `<div style="padding: 8px;">
    <div style="margin-bottom:18px;">
-      Dear <span style="font-weight:600;">${accountHolderName}</span>,
+      Dear <span style="font-weight:500;">${accountHolderName}</span>,
     </div>
 
     <div style="margin-bottom:18px;">
-      Good news! ${!skipAuthorization ? `<span style="font-weight:600;">${medicalDirectorName}</span> has completed their authorization for your Pace Pharmacy professional account application.` : ``}
+      Good news! ${!skipAuthorization ? `<span style="font-weight:500;">${medicalDirectorName}</span> has completed their authorization for your Pace Pharmacy professional account application.` : ``}
     </div>
 
    ${!skipAuthorization ? `<div style="margin-bottom:18px;">
@@ -104,11 +104,11 @@ export function accountHolderAuthorizationComplete(
     </div>
 
     <div style="margin-bottom:6px;">
-      Downtown: <span style="font-weight:600;">416-515-7223</span> | <a href="mailto:info@pacepharmacy.com" style="color:#0b63c6; text-decoration:underline;">info@pacepharmacy.com</a>
+      Downtown: <span style="font-weight:500;">416-515-7223</span> | <a href="mailto:info@pacepharmacy.com" style="color:#0b63c6; text-decoration:underline;">info@pacepharmacy.com</a>
     </div>
 
     <div style="margin-bottom:22px;">
-      Leaside: <span style="font-weight:600;">416-423-6223</span> | <a href="mailto:rx@pacepharmacy.com" style="color:#0b63c6; text-decoration:underline;">rx@pacepharmacy.com</a>
+      Leaside: <span style="font-weight:500;">416-423-6223</span> | <a href="mailto:rx@pacepharmacy.com" style="color:#0b63c6; text-decoration:underline;">rx@pacepharmacy.com</a>
     </div>
 
     <div style="margin-top:12px;">

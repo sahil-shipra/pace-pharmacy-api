@@ -13,7 +13,9 @@ app.use('/api/*', cors({
     'http://localhost:5001',
     'http://localhost:4001',
     'https://pace-pharmacy-form.vercel.app',
-    'https://pace-pharmacy-admin.vercel.app'
+    'https://pace-pharmacy-admin.vercel.app',
+    'https://intake.pacepharmacy.com/',
+    'https://admin.pacepharmacy.com/'
   ],
   credentials: true,
 }))
@@ -35,17 +37,19 @@ app.get(
   })
 );
 
-app.get(
-  "/docs",
-  Scalar({
-    url: "/openapi.json",
-    theme: "purple",
-    pageTitle: "Pace Pharmacy API.",
-    defaultHttpClient: {
-      targetKey: 'js',
-      clientKey: 'axios',
-    },
-  })
-);
+if (process.env.NODE_ENV === 'development') {
+  app.get(
+    "/docs",
+    Scalar({
+      url: "/openapi.json",
+      theme: "purple",
+      pageTitle: "Pace Pharmacy API.",
+      defaultHttpClient: {
+        targetKey: 'js',
+        clientKey: 'axios',
+      },
+    })
+  );
+}
 
 export default app;
