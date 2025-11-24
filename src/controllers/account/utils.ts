@@ -42,7 +42,7 @@ export const sendEmailToNewAccount = async (
                 accountHolderName,
                 clinicName,
                 application: referenceCode,
-                link: `https://pacepharmacy.com/account-setup?code=${referenceCode}`
+                link: `https://intake.pacepharmacy.com/account-setup?code=${referenceCode}`
             })
         })
 

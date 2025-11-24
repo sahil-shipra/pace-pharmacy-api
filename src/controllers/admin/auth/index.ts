@@ -71,29 +71,36 @@ authRoute.post('/signin',
         const { email, password } = c.req.valid("json");
         const supabase = getSupabase()
 
-        const { data, error } = await supabase.auth.signInWithPassword({
-            email,
-            password,
-        })
+        try {
 
-        if (error) {
-            return c.json({ error: error.message }, 400)
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email,
+                password,
+            })
+
+            if (error) {
+                return c.json(createErrorResponse('', error.message, ''), 400)
+            }
+
+            setCookie(c, 'sb-access-token', data.session.access_token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'Lax',
+                maxAge: 60 * 60 * 24 * 7,
+            })
+            setCookie(c, 'sb-refresh-token', data.session.refresh_token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'Lax',
+                maxAge: 60 * 60 * 24 * 30,
+            })
+
+            return c.json(createSuccessResponse({ user: data.user, session: data.session }))
+
+        } catch (error) {
+            console.log('error------>', error)
+            return c.json(createErrorResponse('', ''))
         }
-
-        setCookie(c, 'sb-access-token', data.session.access_token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'Lax',
-            maxAge: 60 * 60 * 24 * 7,
-        })
-        setCookie(c, 'sb-refresh-token', data.session.refresh_token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'Lax',
-            maxAge: 60 * 60 * 24 * 30,
-        })
-
-        return c.json(createSuccessResponse({ user: data.user, session: data.session }))
     })
 
 // Sign out endpoint

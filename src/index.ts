@@ -14,8 +14,10 @@ app.use('/api/*', cors({
     'http://localhost:4001',
     'https://pace-pharmacy-form.vercel.app',
     'https://pace-pharmacy-admin.vercel.app',
-    'https://intake.pacepharmacy.com/',
-    'https://admin.pacepharmacy.com/'
+    'https://intake.pacepharmacy.com',
+    'https://admin.pacepharmacy.com',
+    'http://intake.pacepharmacy.com',
+    'http://admin.pacepharmacy.com'
   ],
   credentials: true,
 }))
