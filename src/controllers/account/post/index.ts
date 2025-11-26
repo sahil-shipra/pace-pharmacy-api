@@ -48,6 +48,7 @@ const postAccount = factory.createHandlers(
 
             const directorEmail = data.medical.isAlsoMedicalDirector ? data.account.emailAddress : data.medical.email;
             const accountHolderEmail = data.account.emailAddress;
+            const accountHolderPhone = data.account.phone;
             const directorName = data.medical.name;
             const accountHolderName = data.account.account.holderName;
             const clinicName = data.account.account.organizationName;
@@ -57,7 +58,7 @@ const postAccount = factory.createHandlers(
                 isAlsoMedicalDirector,
                 directorEmail,
                 directorName,
-
+                accountHolderPhone,
                 accountHolderEmail,
                 accountHolderName,
                 clinicName,

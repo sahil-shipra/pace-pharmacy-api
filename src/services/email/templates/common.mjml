@@ -49,9 +49,9 @@
     </mj-section>
 
     <!-- Main Content -->
-    <mj-section background-color="#ffffff">
+    <mj-section background-color="#ffffff" padding="8px">
       <mj-column>
-        <mj-text font-size="18px"> {{{content}}} </mj-text>
+        <mj-text font-size="14px"> {{{content}}} </mj-text>
       </mj-column>
     </mj-section>
 

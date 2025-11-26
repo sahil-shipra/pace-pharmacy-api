@@ -12,12 +12,26 @@
     <mj-section background-color="#ffffff" padding="0">
       <!-- Left column (Logo) -->
       <mj-column width="40%">
-        <mj-image align="left" src="https://xzmqcwkdmxrmmwxstnip.supabase.co/storage/v1/object/sign/dev/logo.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8wMmZiODY3OS00OWE2LTRiNzYtYWYzOC0yNTFmYTFkNTg3OWMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkZXYvbG9nby5wbmciLCJpYXQiOjE3NjMwMzMxMDcsImV4cCI6MTkyMDcxMzEwN30.Z2qd8T89yMi0-b49SioMwsHZ92ziRhT_MJaK6KgsL8M" border-radius="50%" padding="10px 0" width="250px" height="auto" />
+        <mj-image
+          align="left"
+          src="https://xzmqcwkdmxrmmwxstnip.supabase.co/storage/v1/object/sign/dev/logo.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8wMmZiODY3OS00OWE2LTRiNzYtYWYzOC0yNTFmYTFkNTg3OWMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkZXYvbG9nby5wbmciLCJpYXQiOjE3NjMwMzMxMDcsImV4cCI6MTkyMDcxMzEwN30.Z2qd8T89yMi0-b49SioMwsHZ92ziRhT_MJaK6KgsL8M"
+          border-radius="50%"
+          padding="10px 0"
+          width="250px"
+          height="auto"
+        />
       </mj-column>
 
       <!-- Right column (Title) -->
       <mj-column width="60%">
-        <mj-text align="right" font-size="18px" font-weight="600" color="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" padding="25px 10px">
+        <mj-text
+          align="right"
+          font-size="18px"
+          font-weight="600"
+          color="#333333"
+          font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+          padding="25px 10px"
+        >
           Medical Director Authorization Request
         </mj-text>
       </mj-column>
@@ -60,39 +74,81 @@
         </mj-text>
 
         <!-- Button -->
-        <mj-button background-color="#7FB069" color="#ffffff" font-size="16px" font-weight="600" border-radius="5px" padding-top="10px" padding-bottom="16px" href="{{{link}}}">
+        <mj-button
+          background-color="#7FB069"
+          color="#ffffff"
+          font-size="16px"
+          font-weight="600"
+          border-radius="5px"
+          padding-top="10px"
+          padding-bottom="16px"
+          href="{{{link}}}"
+        >
           Authorize Application
         </mj-button>
 
-        <mj-text font-size="13px" color="#0066cc" padding-bottom="16px" line-height="1.4">
+        <mj-text
+          font-size="13px"
+          color="#0066cc"
+          padding-bottom="16px"
+          line-height="1.4"
+        >
           {{{link}}}
         </mj-text>
 
-        <mj-text font-weight="600" padding-bottom="16px">
+        <mj-text font-weight="600" padding-bottom="4px" line-height="0">
           This authorization includes:
         </mj-text>
 
-        <mj-text padding-left="15px" line-height="1.8">
-          – Reviewing account holder information<br />
-          – Selecting prescription requirement level<br />
-          – Providing your digital signature
+        <mj-text padding-left="24px" line-height="1.8">
+          - Reviewing account holder information<br />
+          - Selecting prescription requirement level<br />
+          - Providing your digital signature
         </mj-text>
 
         <mj-text padding-top="25px" padding-bottom="16px">
-          This link is valid for 14 days. If you have questions about this
-          request, please contact [Account Holder Name] at [Account Holder
-          Email] or [Phone].
+          <mj-raw>
+            <div style="display: block; font-size: 14px">
+              This link is valid for 14 days. If you have questions about this
+              request, please contact
+              <strong>{{{accountHolderName}}}</strong> at
+              <strong>
+                <a
+                  href="mailto:{{{accountHolderEmail}}}"
+                  style="text-decoration: underline"
+                  >{{{accountHolderEmail}}}</a
+                >
+              </strong>
+              or <strong> {{{accountHolderPhone}}} </strong>.
+            </div>
+          </mj-raw>
         </mj-text>
 
-        <mj-text padding-bottom="5px"> Best regards, </mj-text>
-
-        <mj-text padding-bottom="5px" font-weight="600">
-          Pace Pharmacy
+        <mj-text font-weight="600" padding-bottom="2px">
+          Need assistance? Contact us:
         </mj-text>
 
-        <mj-text>
-          416-515-7223 |
-          <a href="mailto:info@pacepharmacy.com" style="color: #333333; text-decoration: underline">info@pacepharmacy.com</a>
+        <mj-text padding-bottom="0px" line-height="0">
+          <strong>Downtown:</strong> 416-515-7223 |
+          <a
+            href="mailto:info@pacepharmacy.com"
+            style="color: #333333; text-decoration: underline"
+            >info@pacepharmacy.com</a
+          >
+        </mj-text>
+
+        <mj-text padding-bottom="12px" line-height="1.6">
+          <strong>Leaside:</strong> 416-423-6223 |
+          <a
+            href="mailto:rx@pacepharmacy.com"
+            style="color: #333333; text-decoration: underline"
+            >rx@pacepharmacy.com</a
+          >
+        </mj-text>
+
+        <mj-text padding-bottom="0px" line-height="0"> Best regards, </mj-text>
+        <mj-text padding-bottom="12px" font-weight="600">
+          Pace Pharmacy Team
         </mj-text>
       </mj-column>
     </mj-section>
@@ -107,16 +163,40 @@
     <mj-section background-color="#ffffff">
       <mj-column>
         <mj-raw>
-          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; font-size: 12px; color: #666666; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              flex-wrap: wrap;
+              font-size: 12px;
+              color: #666666;
+              font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            "
+          >
             <div>© 2025 Pace Pharmacy, All Rights Reserved.</div>
             <div>
-              <a href="https://pacepharmacy.com/privacy-policy/" style="text-decoration: none; margin-right: 15px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">Privacy Policy</a>
-              <a href="https://pacepharmacy.com/contact/" style="text-decoration: none; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">Contact Us</a>
+              <a
+                href="https://pacepharmacy.com/privacy-policy/"
+                style="
+                  text-decoration: none;
+                  margin-right: 15px;
+                  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                "
+                >Privacy Policy</a
+              >
+              <a
+                href="https://pacepharmacy.com/contact/"
+                style="
+                  text-decoration: none;
+                  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                "
+                >Contact Us</a
+              >
             </div>
           </div>
         </mj-raw>
       </mj-column>
     </mj-section>
-
   </mj-body>
 </mjml>

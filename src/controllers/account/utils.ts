@@ -12,6 +12,7 @@ export const sendEmailToNewAccount = async (
         directorEmail,
         directorName,
 
+        accountHolderPhone,
         accountHolderEmail,
         accountHolderName,
         clinicName,
@@ -24,6 +25,7 @@ export const sendEmailToNewAccount = async (
             directorEmail: string;
             directorName: string;
 
+            accountHolderPhone: string;
             accountHolderEmail: string;
             accountHolderName: string;
             clinicName: string;
@@ -40,6 +42,8 @@ export const sendEmailToNewAccount = async (
                 title: 'Medical Director Authorization Request',
                 directorName,
                 accountHolderName,
+                accountHolderEmail,
+                accountHolderPhone,
                 clinicName,
                 application: referenceCode,
                 link: `https://intake.pacepharmacy.com/account-setup?code=${referenceCode}`
