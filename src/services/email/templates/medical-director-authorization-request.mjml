@@ -48,7 +48,7 @@
     <mj-section background-color="#ffffff" padding-top="10px">
       <mj-column>
         <mj-text font-size="16px" padding-bottom="12px">
-          Dear Dr. {{{directorName}}},
+          Dear {{{directorName}}},
         </mj-text>
 
         <mj-text padding-bottom="16px">
@@ -129,15 +129,6 @@
         </mj-text>
 
         <mj-text padding-bottom="0px" line-height="0">
-          <strong>Downtown:</strong> 416-515-7223 |
-          <a
-            href="mailto:info@pacepharmacy.com"
-            style="color: #333333; text-decoration: underline"
-            >info@pacepharmacy.com</a
-          >
-        </mj-text>
-
-        <mj-text padding-bottom="12px" line-height="1.6">
           <strong>Leaside:</strong> 416-423-6223 |
           <a
             href="mailto:rx@pacepharmacy.com"
@@ -146,7 +137,16 @@
           >
         </mj-text>
 
-        <mj-text padding-bottom="0px" line-height="0"> Best regards, </mj-text>
+        <mj-text padding-bottom="12px" line-height="1.6">
+          <strong>Downtown:</strong> 416-515-7223 |
+          <a
+            href="mailto:info@pacepharmacy.com"
+            style="color: #333333; text-decoration: underline"
+            >info@pacepharmacy.com</a
+          >
+        </mj-text>
+
+        <mj-text padding-bottom="0px" line-height="0"> Sincerely, </mj-text>
         <mj-text padding-bottom="12px" font-weight="600">
           Pace Pharmacy Team
         </mj-text>

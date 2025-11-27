@@ -46,17 +46,17 @@ export function medicalDirectorCompletionConfirmation(
     </div>
 
     <div style="margin-bottom:6px;">
-     <strong> Downtown: </strong>
-     <span style="font-weight:500;">416-515-7223</span> | <a href="mailto:info@pacepharmacy.com" style="color:#0b63c6; text-decoration:underline;">info@pacepharmacy.com</a>
-    </div>
-
-    <div style="margin-bottom:22px;">
      <strong> Leaside: </strong>
       <span style="font-weight:500;">416-423-6223</span> | <a href="mailto:rx@pacepharmacy.com" style="color:#0b63c6; text-decoration:underline;">rx@pacepharmacy.com</a>
     </div>
 
+    <div style="margin-bottom:22px;">
+     <strong> Downtown: </strong>
+     <span style="font-weight:500;">416-515-7223</span> | <a href="mailto:info@pacepharmacy.com" style="color:#0b63c6; text-decoration:underline;">info@pacepharmacy.com</a>
+    </div>
+
     <div style="margin-top:12px;">
-      Best regards,<br>
+      Sincerely,<br>
       Pace Pharmacy Team
     </div>
 
@@ -113,17 +113,17 @@ export function accountHolderAuthorizationComplete(
     </div>
 
     <div style="margin-bottom:6px;">
-     <strong> Downtown: </strong>
-     <span style="font-weight:500;">416-515-7223</span> | <a href="mailto:info@pacepharmacy.com" style="color:#0b63c6; text-decoration:underline;">info@pacepharmacy.com</a>
-    </div>
-
-    <div style="margin-bottom:22px;">
      <strong> Leaside: </strong>
       <span style="font-weight:500;">416-423-6223</span> | <a href="mailto:rx@pacepharmacy.com" style="color:#0b63c6; text-decoration:underline;">rx@pacepharmacy.com</a>
     </div>
 
+    <div style="margin-bottom:22px;">
+     <strong> Downtown: </strong>
+     <span style="font-weight:500;">416-515-7223</span> | <a href="mailto:info@pacepharmacy.com" style="color:#0b63c6; text-decoration:underline;">info@pacepharmacy.com</a>
+    </div>
+
     <div style="margin-top:12px;">
-      Best regards,<br>
+      Sincerely,<br>
       Pace Pharmacy Team
     </div>
 </div>`

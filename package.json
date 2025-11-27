@@ -1,7 +1,8 @@
 {
   "name": "pace-pharmacy-be",
   "scripts": {
-    "dev": "bun run --hot src/index.ts"
+    "dev": "bun run --hot src/index.ts",
+    "start": "NODE_ENV=production bun run --hot src/index.ts"
   },
   "dependencies": {
     "@hono/standard-validator": "^0.1.5",
