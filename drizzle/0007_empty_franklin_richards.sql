@@ -1,0 +1,1 @@
+ALTER TABLE "accounts" ADD COLUMN "shipping_same_as_billing" boolean;

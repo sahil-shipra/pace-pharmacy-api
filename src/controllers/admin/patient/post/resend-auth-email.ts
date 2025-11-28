@@ -37,6 +37,7 @@ const resendAuthEmail = factory.createHandlers(
 
             const directorEmail = account.medical_directors.isAlsoMedicalDirector ? account.accounts.emailAddress : account.medical_directors.email ?? '';
             const accountHolderEmail = account.accounts.emailAddress;
+            const accountHolderPhone = account.accounts.phone;
             const directorName = account.medical_directors.name ?? 'Medical Director';
             const accountHolderName = account.accounts.holderName;
             const clinicName = account.accounts.organizationName;
@@ -47,7 +48,7 @@ const resendAuthEmail = factory.createHandlers(
                 isAlsoMedicalDirector,
                 directorEmail,
                 directorName,
-
+                accountHolderPhone,
                 accountHolderEmail,
                 accountHolderName,
                 clinicName,

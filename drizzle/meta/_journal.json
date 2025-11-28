@@ -43,6 +43,20 @@
       "when": 1763386587733,
       "tag": "0005_many_rogue",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1764234459132,
+      "tag": "0006_fair_violations",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1764328913804,
+      "tag": "0007_empty_franklin_richards",
+      "breakpoints": true
     }
   ]
 }

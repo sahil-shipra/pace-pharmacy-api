@@ -1,4 +1,4 @@
-import { integer, pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core';
+import { boolean, integer, pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core';
 import { pharmacyLocations } from './pharmacy-location';
 
 export const accounts = pgTable('accounts', {
@@ -13,6 +13,7 @@ export const accounts = pgTable('accounts', {
     documents: text('documents'), // Could be JSON or file path
     createdAt: timestamp('created_at').defaultNow().notNull(),
     updatedAt: timestamp('updated_at').defaultNow().notNull(),
+    shippingSameAsBilling: boolean('shipping_same_as_billing'),
     preferredLocation: integer("preferred_location")
         .notNull()
         .default(1)

@@ -1,5 +1,4 @@
 import { pgTable, uuid, integer, text, timestamp } from "drizzle-orm/pg-core";
-import { applications } from "./applications";
 
 export const documentsTable = pgTable("documents", {
     id: uuid("id").primaryKey(),

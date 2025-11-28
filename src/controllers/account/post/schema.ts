@@ -99,6 +99,7 @@ export const requestSchema = z.object({
     medical: medicalFormSchema,
     acknowledgements: ackFormSchema,
     preferredLocation: z.number().default(1),
+    sameAsBilling: z.boolean().optional().default(false),
 })
 
 export const responseSchema = z.object({
@@ -112,4 +113,5 @@ export interface CreateAccountRequest {
     medical: MedicalFormSchema;
     acknowledgements: ACKFormSchema;
     preferredLocation: number
+    sameAsBilling?: boolean
 }

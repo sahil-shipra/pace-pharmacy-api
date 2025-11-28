@@ -36,7 +36,8 @@ export async function createAccount(input: CreateAccountRequest, referenceCode: 
                 emailAddress: input.account.emailAddress,
                 fax: input.account.fax,
                 documents: input.account.documents,
-                preferredLocation: input.preferredLocation ?? 1
+                preferredLocation: input.preferredLocation ?? 1,
+                shippingSameAsBilling: false
             }).returning();
 
             // 2. Create billing address

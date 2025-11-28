@@ -3,6 +3,7 @@ import { db } from "@/db";
 import { accounts, acknowledgements, addresses, deliverySettings, medicalDirectors, paymentInformation } from "@/db/schema";
 import { applications } from "@/db/schema/applications";
 import { pharmacyLocations } from "@/db/schema/pharmacy-location";
+import { accountStatusTable } from "@/db/schema/account-status";
 
 // Get complete account with all related data
 export async function getAllAccounts() {
@@ -63,12 +64,15 @@ export async function getPaginatedPatientIntakes(
             medicalDirectorName: medicalDirectors.name,
             medicalDirectorLicense: medicalDirectors.licenseNo,
             medicalDirectorEmail: medicalDirectors.email,
-            authStatus: sql<string>`CASE WHEN ${applications.isSubmitted} = true THEN 'Completed' ELSE 'Pending' END`.as('authStatus')
+            authStatus: sql<string>`CASE WHEN ${applications.isSubmitted} = true THEN 'Completed' ELSE 'Pending' END`.as('authStatus'),
+            isAccountActive: accountStatusTable.isActive,
+            accountStatus: sql<string>`CASE WHEN ${accountStatusTable.isActive} = true THEN 'active' ELSE 'inactive' END`.as('accountStatus')
         })
         .from(accounts)
         .leftJoin(pharmacyLocations, eq(accounts.preferredLocation, pharmacyLocations.id))
         .leftJoin(medicalDirectors, eq(accounts.id, medicalDirectors.accountId))
         .leftJoin(applications, eq(accounts.id, applications.accountId))
+        .leftJoin(accountStatusTable, eq(accounts.id, accountStatusTable.accountId))
         .where(whereClause)
         .orderBy(desc(accounts.createdAt))
         .limit(pageSize)
