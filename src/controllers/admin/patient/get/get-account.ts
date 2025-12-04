@@ -4,6 +4,8 @@ import { accounts, acknowledgements, addresses, deliverySettings, medicalDirecto
 import { applications } from "@/db/schema/applications";
 import { pharmacyLocations } from "@/db/schema/pharmacy-location";
 import { accountStatusTable } from "@/db/schema/account-status";
+import { documentsTable } from "@/db/schema/documents-table";
+import { supabase } from "@/services/supabase-client";
 
 // Get complete account with all related data
 export async function getAllAccounts() {

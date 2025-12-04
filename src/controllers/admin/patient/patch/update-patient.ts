@@ -77,8 +77,6 @@ const updatePatient = factory.createHandlers(
             const { id } = c.req.valid("param");
             const data = c.req.valid("json");
             await updateAccount(Number(id), data)
-            console.log('update-patient params ---->', id)
-            console.log('update-patient body ---->', data)
             return c.json(createSuccessResponse({
                 data
             }))
