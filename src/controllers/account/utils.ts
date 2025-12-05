@@ -18,7 +18,7 @@ export const sendEmailToNewAccount = async (
         clinicName,
 
         referenceCode,
-
+        preferredLocation
     }:
         {
             isAlsoMedicalDirector: boolean;
@@ -31,6 +31,7 @@ export const sendEmailToNewAccount = async (
             clinicName: string;
 
             referenceCode: string;
+            preferredLocation: number;
         }
 ) => {
     const dateTime = format(new Date(), "dd/MM/yyyy hh:mm aa")
@@ -60,7 +61,8 @@ export const sendEmailToNewAccount = async (
                 accountHolderName,
                 clinicName,
                 application: referenceCode,
-                submittedDateTime: dateTime
+                submittedDateTime: dateTime,
+                contactEmail: preferredLocation === 1 ? "rx@pacepharmacy.com" : "info@pacepharmacy.com"
             })
         })
     } else {

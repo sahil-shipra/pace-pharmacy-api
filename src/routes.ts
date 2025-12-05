@@ -7,7 +7,7 @@ const appRoutes = new Hono();
 
 appRoutes.get("/v", (c) => {
     return c.json({
-        version: "1.0.2"
+        version: "1.0.3"
     })
 })
 appRoutes.route("/account", account);

@@ -53,6 +53,7 @@ const postAccount = factory.createHandlers(
             const accountHolderName = data.account.account.holderName;
             const clinicName = data.account.account.organizationName;
             const isAlsoMedicalDirector = data.medical.isAlsoMedicalDirector ?? false
+            const preferredLocation = data.preferredLocation
 
             sendEmailToNewAccount({
                 isAlsoMedicalDirector,
@@ -62,7 +63,8 @@ const postAccount = factory.createHandlers(
                 accountHolderEmail,
                 accountHolderName,
                 clinicName,
-                referenceCode
+                referenceCode,
+                preferredLocation
             })
 
             return c.json(createSuccessResponse({

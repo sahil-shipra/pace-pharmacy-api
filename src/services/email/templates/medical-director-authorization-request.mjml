@@ -128,7 +128,7 @@
           Need assistance? Contact us:
         </mj-text>
 
-        <mj-text padding-bottom="0px" line-height="0">
+        <mj-text padding-bottom="0px" line-height="1.6">
           <strong>Leaside:</strong> 416-423-6223 |
           <a
             href="mailto:rx@pacepharmacy.com"

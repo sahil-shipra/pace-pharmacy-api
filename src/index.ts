@@ -17,7 +17,8 @@ app.use('/api/*', cors({
     'https://intake.pacepharmacy.com',
     'https://admin.pacepharmacy.com',
     'http://intake.pacepharmacy.com',
-    'http://admin.pacepharmacy.com'
+    'http://admin.pacepharmacy.com',
+    'http://localhost:4173'
   ],
   credentials: true,
 }))
@@ -32,7 +33,7 @@ app.get(
     documentation: {
       info: {
         title: "Pace Pharmacy",
-        version: "1.0.2",
+        version: "1.0.3",
         description: "",
       },
     },

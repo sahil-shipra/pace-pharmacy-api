@@ -43,6 +43,7 @@ const resendAuthEmail = factory.createHandlers(
             const clinicName = account.accounts.organizationName;
             const isAlsoMedicalDirector = account.medical_directors.isAlsoMedicalDirector ?? false
             const referenceCode = account.applications.referenceCode;
+            const preferredLocation = account.accounts.preferredLocation
 
             await sendEmailToNewAccount({
                 isAlsoMedicalDirector,
@@ -52,7 +53,8 @@ const resendAuthEmail = factory.createHandlers(
                 accountHolderEmail,
                 accountHolderName,
                 clinicName,
-                referenceCode
+                referenceCode,
+                preferredLocation
             })
 
             return c.json(createSuccessResponse({

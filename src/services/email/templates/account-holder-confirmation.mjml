@@ -121,9 +121,9 @@
           If your Medical Director does not receive the email, please check
           spam/junk folders or contact us at
           <a
-            href="mailto:info@pacepharmacy.com"
+            href="mailto:{{contactEmail}}"
             style="color: #333333; text-decoration: underline"
-            >info@pacepharmacy.com</a
+            >{{contactEmail}}</a
           >.
         </mj-text>
 
@@ -131,7 +131,7 @@
           Need assistance? Contact us:
         </mj-text>
 
-        <mj-text padding-bottom="0px" line-height="0">
+        <mj-text padding-bottom="0px" line-height="1.6">
           <strong>Leaside:</strong> 416-423-6223 |
           <a
             href="mailto:rx@pacepharmacy.com"
