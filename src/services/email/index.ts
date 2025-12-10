@@ -25,6 +25,7 @@ export async function sendSimpleEmail(
     }
 ) {
     const TOKEN = process.env.POSTMARK_SERVER_TOKEN || ''
+    const SENDER_EMAIL = process.env.POSTMARK_SENDER_EMAIL
     // Initialize the client with your Server Token
     const client = new postmark.ServerClient(TOKEN);
 
@@ -32,7 +33,7 @@ export async function sendSimpleEmail(
 
     try {
         const result = await client.sendEmail({
-            From: `${'Pace Pharmacy'} <sahil@shipra.ca>`,
+            From: `${'Pace Pharmacy'} <${SENDER_EMAIL}>`,
             To: to,
             Subject: subject,
             TextBody: 'This is a plain text email sent by Pace Pharmacy via Postmark!',

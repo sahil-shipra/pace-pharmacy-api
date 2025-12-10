@@ -15,7 +15,8 @@ export async function getAllAccounts() {
         .leftJoin(deliverySettings, eq(accounts.id, deliverySettings.accountId))
         .leftJoin(medicalDirectors, eq(accounts.id, medicalDirectors.accountId))
         .leftJoin(paymentInformation, eq(accounts.id, paymentInformation.accountId))
-    return account;
+        .leftJoin(applications, eq(accounts.id, applications.accountId))
+    return account
 }
 
 // Get paginated patient intakes with required fields

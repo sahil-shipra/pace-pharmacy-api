@@ -4,3 +4,4 @@ export * from './delivery-settings';
 export * from './payment-information';
 export * from './acknowledgements';
 export * from './medical-directors';
+export * from './documents-table';

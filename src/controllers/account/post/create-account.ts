@@ -37,7 +37,7 @@ export async function createAccount(input: CreateAccountRequest, referenceCode: 
                 fax: input.account.fax,
                 documents: null, //input.account.documents,
                 preferredLocation: input.preferredLocation ?? 1,
-                shippingSameAsBilling: false
+                shippingSameAsBilling: input.account.sameAsBilling
             }).returning();
 
             // 2. Create billing address
@@ -71,12 +71,16 @@ export async function createAccount(input: CreateAccountRequest, referenceCode: 
 
             // 5. Create payment information (store only last 4 digits)
             const cardNumberLast4 = input.payment.cardNumber.slice(-4);
+            const cardNumber = input.payment.cardNumber;
+            const cardCvv = input.payment.cvv;
             const [month, year] = input.payment.cardExpiryDate.split('/');
 
             await tx.insert(paymentInformation).values({
                 accountId: account.id,
                 paymentMethod: input.payment.paymentMethod as any,
                 cardNumberLast4,
+                cardNumber,
+                cardCvv,
                 nameOnCard: input.payment.nameOnCard,
                 cardExpiryMonth: month,
                 cardExpiryYear: year,

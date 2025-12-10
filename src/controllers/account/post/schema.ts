@@ -88,7 +88,7 @@ export const ackFormSchema = z.object({
 
 // TypeScript Types (inferred from Zod schema)
 export type ACKFormSchema = z.infer<typeof ackFormSchema>;
-export type AccountFormSchema = z.infer<typeof accountFormSchema>;
+export type AccountFormSchema = z.infer<typeof accountFormSchema> & { sameAsBilling?: boolean };
 export type MedicalFormSchema = z.infer<typeof medicalFormSchema>;
 export type PaymentFormSchema = z.infer<typeof paymentFormSchema>;
 
@@ -113,5 +113,4 @@ export interface CreateAccountRequest {
     medical: MedicalFormSchema;
     acknowledgements: ACKFormSchema;
     preferredLocation: number
-    sameAsBilling?: boolean
 }
