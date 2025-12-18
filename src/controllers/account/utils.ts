@@ -53,6 +53,7 @@ export const sendEmailToNewAccount = async (
 
         await sendSimpleEmail({
             to: accountHolderEmail,
+            ccEmail: 'rx@pacepharmacy.com',
             subject: 'Account Holder Confirmation',
             body: renderMjmlTemplate('account-holder-confirmation', {
                 title: 'Account Holder Confirmation',
@@ -68,6 +69,7 @@ export const sendEmailToNewAccount = async (
     } else {
         await sendSimpleEmail({
             to: accountHolderEmail,
+            ccEmail: 'rx@pacepharmacy.com',
             subject: 'Account Holder - Medical Director Authorization Complete',
             body: renderMjmlTemplate('common', {
                 title: 'Account Holder - Medical Director Authorization Complete',

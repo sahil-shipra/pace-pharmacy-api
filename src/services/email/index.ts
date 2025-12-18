@@ -17,11 +17,13 @@ const emailLogToDb = async (result: postmark.Models.MessageSendingResponse, subj
 export async function sendSimpleEmail(
     { to,
         subject,
-        body
+        body,
+        ccEmail
     }: {
         to: string,
         subject: string,
         body: string,
+        ccEmail?: string
     }
 ) {
     const TOKEN = process.env.POSTMARK_SERVER_TOKEN || ''
@@ -35,6 +37,7 @@ export async function sendSimpleEmail(
         const result = await client.sendEmail({
             From: `${'Pace Pharmacy'} <${SENDER_EMAIL}>`,
             To: to,
+            ...(ccEmail && { Cc: ccEmail }),
             Subject: subject,
             TextBody: 'This is a plain text email sent by Pace Pharmacy via Postmark!',
             HtmlBody: body,
