@@ -37,7 +37,10 @@ export async function sendSimpleEmail(
         const result = await client.sendEmail({
             From: `${'Pace Pharmacy'} <${SENDER_EMAIL}>`,
             To: to,
-            ...(ccEmail && { Cc: ccEmail }),
+            ...(ccEmail && {
+                Cc: ccEmail,
+                ReplyTo: ccEmail,
+            }),
             Subject: subject,
             TextBody: 'This is a plain text email sent by Pace Pharmacy via Postmark!',
             HtmlBody: body,
