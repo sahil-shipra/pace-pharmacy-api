@@ -85,8 +85,11 @@ const postApplication = factory.createHandlers(describeRoute({
             const medicalDirectorEmail = account.medical_directors?.isAlsoMedicalDirector ? accountHolderEmail : account.medical_directors?.email
             const preferredLocation = account.accounts?.preferredLocation ?? 1
             const ccEmail = preferredLocation === 1 ? "rx@pacepharmacy.com" : "info@pacepharmacy.com"
+            const from = preferredLocation === 1 ? `Pace Pharmacy (Leaside) <rx@pacepharmacy.com>` : `Pace Pharmacy (Downtown) <info@pacepharmacy.com>`
+
             if (medicalDirectorEmail) {
                 await sendSimpleEmail({
+                    from,
                     to: medicalDirectorEmail,
                     ccEmail: ccEmail,
                     subject: 'Medical Director Completion Confirmation',
@@ -108,6 +111,7 @@ const postApplication = factory.createHandlers(describeRoute({
 
             if (accountHolderEmail) {
                 await sendSimpleEmail({
+                    from,
                     to: accountHolderEmail,
                     ccEmail: ccEmail,
                     subject: 'Account Holder - Medical Director Authorization Complete',

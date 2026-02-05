@@ -36,8 +36,11 @@ export const sendEmailToNewAccount = async (
 ) => {
     const dateTime = format(new Date(), "dd/MM/yyyy hh:mm aa")
     const contactEmail = preferredLocation === 1 ? "rx@pacepharmacy.com" : "info@pacepharmacy.com"
+    const from = preferredLocation === 1 ? `Pace Pharmacy (Leaside) <rx@pacepharmacy.com>` : `Pace Pharmacy (Downtown) <info@pacepharmacy.com>`
+
     if (!isAlsoMedicalDirector) {
         await sendSimpleEmail({
+            from: from,
             to: directorEmail,
             subject: 'Medical Director Authorization Request',
             body: renderMjmlTemplate('medical-director-authorization-request', {
@@ -53,6 +56,7 @@ export const sendEmailToNewAccount = async (
         })
 
         await sendSimpleEmail({
+            from,
             to: accountHolderEmail,
             ccEmail: contactEmail,
             subject: 'Account Holder Confirmation',
@@ -69,6 +73,7 @@ export const sendEmailToNewAccount = async (
         })
     } else {
         await sendSimpleEmail({
+            from,
             to: accountHolderEmail,
             ccEmail: contactEmail,
             subject: 'Account Holder - Medical Director Authorization Complete',

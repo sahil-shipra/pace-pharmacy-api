@@ -15,11 +15,14 @@ const emailLogToDb = async (result: postmark.Models.MessageSendingResponse, subj
 
 // Example 1: Send a simple email
 export async function sendSimpleEmail(
-    { to,
+    {
+        from,
+        to,
         subject,
         body,
         ccEmail
     }: {
+        from?: string,
         to: string,
         subject: string,
         body: string,
@@ -35,7 +38,7 @@ export async function sendSimpleEmail(
 
     try {
         const result = await client.sendEmail({
-            From: `${'Pace Pharmacy'} <${SENDER_EMAIL}>`,
+            From: from ?? `${'Pace Pharmacy'} <${SENDER_EMAIL}>`,
             To: to,
             ...(ccEmail && {
                 Cc: ccEmail,
