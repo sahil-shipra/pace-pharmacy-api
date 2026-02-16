@@ -6,6 +6,7 @@
   },
   "dependencies": {
     "@hono/standard-validator": "^0.1.5",
+    "@react-pdf/renderer": "^4.3.2",
     "@scalar/hono-api-reference": "^0.9.24",
     "@supabase/supabase-js": "^2.81.1",
     "add": "^2.0.6",

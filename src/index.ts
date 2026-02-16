@@ -33,7 +33,7 @@ app.get(
     documentation: {
       info: {
         title: "Pace Pharmacy",
-        version: "1.0.4",
+        version: "1.0.5",
         description: "",
       },
     },
@@ -55,4 +55,8 @@ if (process.env.NODE_ENV === 'development') {
   );
 }
 
-export default app;
+export default {
+  port: 3000,
+  idleTimeout: 60, // increase timeout (seconds)
+  fetch: app.fetch,
+}

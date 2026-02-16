@@ -33,23 +33,36 @@ export async function sendSimpleEmail(
     const SENDER_EMAIL = process.env.POSTMARK_SENDER_EMAIL
     // Initialize the client with your Server Token
     const client = new postmark.ServerClient(TOKEN);
+    const env_mode = process.env.NODE_ENV
 
     if (!TOKEN || !client) return;
 
     try {
-        const result = await client.sendEmail({
-            From: from ?? `${'Pace Pharmacy'} <${SENDER_EMAIL}>`,
+        const isDevelopment = env_mode === 'development';
+
+        const defaultFrom = `Pace Pharmacy <${SENDER_EMAIL}>`;
+
+        // If development → always use default
+        // If not development → use provided `from` or fallback to default
+        const resolvedFrom = isDevelopment
+            ? defaultFrom
+            : (from || defaultFrom);
+
+        const emailPayload: any = {
+            From: resolvedFrom,
             To: to,
-            ...(ccEmail && {
-                Cc: ccEmail,
-                ReplyTo: ccEmail,
-            }),
             Subject: subject,
             TextBody: 'This is a plain text email sent by Pace Pharmacy via Postmark!',
             HtmlBody: body,
-            MessageStream: 'outbound'
-        });
+            MessageStream: 'outbound',
+        };
 
+        // Only add CC + ReplyTo in non-development mode
+        if (!isDevelopment && ccEmail) {
+            emailPayload.Cc = ccEmail;
+            emailPayload.ReplyTo = ccEmail;
+        }
+        const result = await client.sendEmail(emailPayload);
         emailLogToDb(
             result,
             subject,

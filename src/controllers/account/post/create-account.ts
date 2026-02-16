@@ -1,3 +1,4 @@
+import { krollStatus } from '@/db/schema/kroll-status';
 import { db } from '../../../db';
 import {
     accounts,
@@ -110,6 +111,11 @@ export async function createAccount(input: CreateAccountRequest, referenceCode: 
                 isActive: input.medical.isAlsoMedicalDirector !== true,
                 isSubmitted: input.medical.isAlsoMedicalDirector === true,
                 isExpired: false
+            });
+
+            await tx.insert(krollStatus).values({
+                accountId: account.id,
+                status: 'pending'
             });
 
             return account;

@@ -2,17 +2,20 @@ import { Hono } from "hono";
 import account from "./controllers/account";
 import application from "./controllers/application";
 import adminRoutes from "./controllers/admin";
+import krollRoutes from "./controllers/kroll";
 
 const appRoutes = new Hono();
 
 appRoutes.get("/v", (c) => {
     return c.json({
-        version: "1.0.4"
+        version: "1.0.5"
     })
 })
 appRoutes.route("/account", account);
 appRoutes.route("/application", application);
 
 appRoutes.route("/admin", adminRoutes);
+
+appRoutes.route("/kroll", krollRoutes);
 
 export default appRoutes;
