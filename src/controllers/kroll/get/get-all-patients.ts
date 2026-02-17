@@ -1,4 +1,4 @@
-import { describeRoute, validator } from "hono-openapi";
+import { describeRoute } from "hono-openapi";
 import { createFactory } from "hono/factory";
 import { createSuccessResponse } from "@/controllers/_schemas";
 import { getAllAccounts } from "./get-account";

@@ -23,14 +23,14 @@ export const authMiddleware = async (c: Context<any, any, {}>, next: () => any) 
     const token = getCookie(c, 'sb-access-token')
 
     if (!token) {
-        return c.json(createErrorResponse('Unauthorized', ''), 401)
+        return c.json(createErrorResponse('Unauthorized', 'You are not authorized to access this resource. Please provide valid credentials and try again.'), 401)
     }
 
     const supabase = getSupabase(token)
     const { data: { user }, error } = await supabase.auth.getUser()
 
     if (error || !user) {
-        return c.json(createErrorResponse('Invalid token', ''), 401)
+        return c.json(createErrorResponse('Invalid token', 'The provided authentication token is invalid or has expired. Please log in again to obtain a valid token.'), 401)
     }
 
     c.set('user', user)

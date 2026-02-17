@@ -1,4 +1,4 @@
-import { eq, isNull, or } from "drizzle-orm";
+import { and, eq, isNull, or } from "drizzle-orm";
 import { db } from "@/db";
 import { accounts, acknowledgements, deliverySettings, medicalDirectors, paymentInformation, documentsTable } from "@/db/schema";
 import { applications } from "@/db/schema/applications";
@@ -19,7 +19,7 @@ export async function getAllAccounts(id?: number) {
         .where(id ?
             eq(accounts.id, id)
             : or(
-                eq(krollStatus.status, 'pending'),
+                and(eq(krollStatus.status, 'pending'), eq(applications.isSubmitted, true)),
                 isNull(krollStatus.accountId) // no krollStatus row exists
             ))
 

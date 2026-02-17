@@ -1,13 +1,13 @@
 import { describeRoute, validator } from "hono-openapi";
 import { createFactory } from "hono/factory";
-import { createSuccessResponse } from "@/controllers/_schemas";
+import { createErrorResponse, createSuccessResponse } from "@/controllers/_schemas";
 import { getAllAccounts } from "./get-account";
 import z from "zod";
 
 const factory = createFactory();
 
 const paramsSchema = z.object({
-    id: z.string(),
+    id: z.string().min(1, "Patient ID is required"),
 });
 
 const getPatient = factory.createHandlers(
@@ -27,7 +27,21 @@ const getPatient = factory.createHandlers(
     validator("param", paramsSchema),
     async (c) => {
         const { id } = c.req.valid("param");
-        const patient = await getAllAccounts(Number(id));
+
+        if (typeof id !== "string" || id.trim().length === 0 || isNaN(Number(id))) {
+            return c.json(
+                createErrorResponse("INVALID_ID", "Account ID is required"),
+                400
+            );
+        }
+
+        const [patient] = await getAllAccounts(Number(id));
+
+        if (!patient)
+            return c.json(
+                createErrorResponse("NOT_FOUND", `No patient found for account ID: ${id}`),
+                404
+            );
 
         return c.json(
             createSuccessResponse({

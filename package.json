@@ -19,11 +19,15 @@
     "mjml": "^4.16.1",
     "postgres": "^3.4.7",
     "postmark": "^4.0.5",
+    "puppeteer": "^24.37.3",
+    "puppeteer-core": "^24.37.3",
+    "react": "^19.2.4",
     "zod": "^4.1.12"
   },
   "devDependencies": {
     "@types/bun": "latest",
     "@types/mjml": "^4.7.4",
+    "@types/react": "^19.2.14",
     "drizzle-kit": "^0.31.7",
     "tsx": "^4.20.6"
   }

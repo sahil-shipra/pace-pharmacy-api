@@ -5,8 +5,11 @@ import { Scalar } from "@scalar/hono-api-reference";
 import { openAPIRouteHandler } from "hono-openapi";
 import { cors } from 'hono/cors'
 import appRoutes from "./routes";
+import { serveStatic } from 'hono/bun'
 
 const app = new Hono();
+
+app.use('/*', serveStatic({ root: './public/*' }))
 
 app.use('/api/*', cors({
   origin: [
