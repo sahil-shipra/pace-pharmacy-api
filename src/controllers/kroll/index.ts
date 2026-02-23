@@ -6,6 +6,7 @@ import getPatientPdf from "./get/get-patient-pdf";
 import getMdApprovalEmail from "./get/get-md-approval-email";
 import getDocuments from "./get/get-documents";
 import apiKeyMiddleware from "@/middleware/api-key-middleware";
+import getKrollCompletedPatients from "./get/get-kroll-completed-patients";
 
 const krollRoutes = new Hono();
 
@@ -14,6 +15,11 @@ krollRoutes.use("/*", apiKeyMiddleware);
 krollRoutes.get(
     "/patients",
     ...getAllPatients,
+);
+
+krollRoutes.get(
+    "/kroll-completed-patients",
+    ...getKrollCompletedPatients,
 );
 
 krollRoutes.get(

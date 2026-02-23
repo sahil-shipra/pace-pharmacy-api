@@ -36,7 +36,7 @@ app.get(
     documentation: {
       info: {
         title: "Pace Pharmacy",
-        version: "1.0.5",
+        version: "1.0.7",
         description: "",
       },
     },

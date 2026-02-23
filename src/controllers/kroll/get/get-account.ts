@@ -1,4 +1,4 @@
-import { and, eq, isNull, or } from "drizzle-orm";
+import { and, eq, isNull, or, SQL } from "drizzle-orm";
 import { db } from "@/db";
 import { accounts, acknowledgements, deliverySettings, medicalDirectors, paymentInformation, documentsTable } from "@/db/schema";
 import { applications } from "@/db/schema/applications";
@@ -6,8 +6,11 @@ import { supabase } from "@/services/supabase-client";
 import { krollStatus } from "@/db/schema/kroll-status";
 
 // Get all accounts with related data
-export async function getAllAccounts(id?: number) {
-    const accountRows = await db
+export async function getAllAccounts(
+    id?: number,
+    status?: "pending" | "complete"
+) {
+    const query = db
         .select()
         .from(accounts)
         .leftJoin(acknowledgements, eq(accounts.id, acknowledgements.accountId))
@@ -15,14 +18,27 @@ export async function getAllAccounts(id?: number) {
         .leftJoin(medicalDirectors, eq(accounts.id, medicalDirectors.accountId))
         .leftJoin(paymentInformation, eq(accounts.id, paymentInformation.accountId))
         .leftJoin(applications, eq(accounts.id, applications.accountId))
-        .leftJoin(krollStatus, eq(accounts.id, krollStatus.accountId))
-        .where(id ?
-            eq(accounts.id, id)
-            : or(
-                and(eq(krollStatus.status, 'pending'), eq(applications.isSubmitted, true)),
-                isNull(krollStatus.accountId) // no krollStatus row exists
-            ))
+        .leftJoin(krollStatus, eq(accounts.id, krollStatus.accountId));
 
+    const conditions: SQL[] = [];
+
+    if (id) {
+        conditions.push(eq(accounts.id, id));
+    }
+
+    if (status) {
+        conditions.push(eq(krollStatus.status, status));
+    } else {
+        // Default: pending+submitted OR no krollStatus row
+        conditions.push(
+            or(
+                and(eq(krollStatus.status, 'pending'), eq(applications.isSubmitted, true)),
+                isNull(krollStatus.accountId)
+            )!
+        );
+    }
+
+    const accountRows = await query.where(and(...conditions));
     if (!accountRows.length) return [];
 
     // Fetch related collections in parallel
