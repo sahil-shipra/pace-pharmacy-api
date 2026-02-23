@@ -71,8 +71,9 @@ const getMdApprovalEmail = factory.createHandlers(
         })
 
         const browser = await puppeteer.launch({
-            headless: "shell"
-        })
+            headless: true,
+            args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        });
 
         const page = await browser.newPage()
         await page.setContent(html, { waitUntil: 'networkidle0' })

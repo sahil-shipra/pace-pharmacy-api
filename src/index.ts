@@ -43,7 +43,9 @@ app.get(
   })
 );
 
-if (process.env.NODE_ENV === 'development') {
+const allowDocs = process.env.ALLOW_API_DOCS === "true";
+
+if (allowDocs) {
   app.get(
     "/docs",
     Scalar({
