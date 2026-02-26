@@ -6,6 +6,7 @@ import { pharmacyLocations } from "@/db/schema/pharmacy-location";
 import { accountStatusTable } from "@/db/schema/account-status";
 import { documentsTable } from "@/db/schema/documents-table";
 import { supabase } from "@/services/supabase-client";
+import { krollStatus } from "@/db/schema/kroll-status";
 
 // Get complete account with all related data
 export async function getAllAccounts() {
@@ -69,13 +70,15 @@ export async function getPaginatedPatientIntakes(
             medicalDirectorEmail: medicalDirectors.email,
             authStatus: sql<string>`CASE WHEN ${applications.isSubmitted} = true THEN 'Completed' ELSE 'Pending' END`.as('authStatus'),
             isAccountActive: accountStatusTable.isActive,
-            accountStatus: sql<string>`CASE WHEN ${accountStatusTable.isActive} = true THEN 'active' ELSE 'inactive' END`.as('accountStatus')
+            accountStatus: sql<string>`CASE WHEN ${accountStatusTable.isActive} = true THEN 'active' ELSE 'inactive' END`.as('accountStatus'),
+            krollStatus: krollStatus.status || 'pending',
         })
         .from(accounts)
         .leftJoin(pharmacyLocations, eq(accounts.preferredLocation, pharmacyLocations.id))
         .leftJoin(medicalDirectors, eq(accounts.id, medicalDirectors.accountId))
         .leftJoin(applications, eq(accounts.id, applications.accountId))
         .leftJoin(accountStatusTable, eq(accounts.id, accountStatusTable.accountId))
+        .leftJoin(krollStatus, eq(accounts.id, krollStatus.accountId))
         .where(whereClause)
         .orderBy(desc(accounts.createdAt))
         .limit(pageSize)
