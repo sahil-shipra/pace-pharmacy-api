@@ -38,6 +38,7 @@ export type PatientResponse = {
         holderName: string;
         designation: string;
         organizationName: string;
+        organizationType: "general-medical" | "aesthetics" | "naturopathic" | string;
         contactPerson: string;
         phone: string;
         emailAddress: string;
@@ -171,6 +172,23 @@ const styles = StyleSheet.create({
     },
 });
 
+function shownOrganizationType(
+    type: PatientResponse["accounts"]["organizationType"]
+) {
+    switch (type) {
+        case "general-medical":
+            return "General Medical Clinic";
+        case "aesthetics":
+            return "Aesthetics Clinic";
+        case "naturopathic":
+            return "Naturopathic Clinic";
+        case "other":
+            return type;
+        default:
+            return type; // custom value
+    }
+}
+
 const ExportPDF = ({ data }: { data: PatientResponse }) => {
 
     const billingAddress = data?.addresses?.find(address => address.addressType?.toLowerCase() === "billing") ?? data?.addresses?.[0]
@@ -222,12 +240,22 @@ const ExportPDF = ({ data }: { data: PatientResponse }) => {
                 </View>
                 <View style={styles.hr} />
 
-                <View style={styles.labelRow}>
-                    <Text style={styles.label}>Clinic/Organization Name :</Text>
-                    <Text style={styles.text}>
-                        {data.accounts.organizationName}
-                    </Text>
+                <View style={{ ...styles.labelRow, justifyContent: 'space-between' }}>
+                    <View style={{ ...styles.labelRow, width: "50%", marginBottom: 0 }}>
+                        <Text style={styles.label}>Clinic/Organization Name :</Text>
+                        <Text style={styles.text}>
+                            {data.accounts.organizationName}
+                        </Text>
+                    </View>
+
+                    <View style={{ ...styles.labelRow, width: "50%", marginBottom: 0 }}>
+                        <Text style={styles.label}>Clinic/Organization Type :</Text>
+                        <Text style={styles.text}>
+                            {shownOrganizationType(data.accounts.organizationType)}
+                        </Text>
+                    </View>
                 </View>
+
                 <View style={styles.hr} />
 
                 <View style={styles.labelRow}>

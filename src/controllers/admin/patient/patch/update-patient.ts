@@ -3,6 +3,7 @@ import { describeRoute, validator } from "hono-openapi";
 import { createFactory } from "hono/factory";
 import z from "zod";
 import { updateAccount } from "./update-account";
+import { zClinicType } from "@/controllers/account/post/schema";
 
 
 export const AccountSchema = z.object({
@@ -10,6 +11,7 @@ export const AccountSchema = z.object({
     holderName: z.string(),
     designation: z.string(),
     organizationName: z.string(),
+    organizationType: zClinicType,
     contactPerson: z.string(),
     phone: z.string(),
     emailAddress: z.email(),
@@ -17,7 +19,7 @@ export const AccountSchema = z.object({
     createdAt: z.string(),
     updatedAt: z.string(),
     preferredLocation: z.number(),
-    shippingSameAsBilling: z.boolean()
+    shippingSameAsBilling: z.boolean(),
 });
 
 export const AddressSchema = z.object({

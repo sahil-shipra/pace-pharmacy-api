@@ -32,6 +32,7 @@ export async function createAccount(input: CreateAccountRequest, referenceCode: 
                 holderName: input.account.account.holderName,
                 designation: input.account.account.designation,
                 organizationName: input.account.account.organizationName,
+                organizationType: input.account.account.clinicType,
                 contactPerson: input.account.account.contactPerson,
                 phone: input.account.phone,
                 emailAddress: input.account.emailAddress,

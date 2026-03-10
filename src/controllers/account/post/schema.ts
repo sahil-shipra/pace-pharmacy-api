@@ -1,10 +1,17 @@
 import { z } from 'zod';
 
+export const zClinicType = z.union([
+    z.enum(["general-medical", "aesthetics", "naturopathic"]),
+    z.literal("other"),
+    z.string()
+]).default("general-medical");
+
 // Zod v4 Schema
 const accountSchema = z.object({
     holderName: z.string().min(1, 'Holder name is required'),
     designation: z.string().min(1, 'Designation is required'),
     organizationName: z.string().min(1, 'Organization name is required'),
+    clinicType: zClinicType,
     contactPerson: z.string().optional().default(''),
 });
 

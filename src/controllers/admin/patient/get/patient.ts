@@ -32,7 +32,7 @@ const getPatient = factory.createHandlers(
             const { id } = c.req.valid("param");
             const account = await getCompleteAccount(Number(id))
             return c.json(createSuccessResponse({
-                ...account
+                ...account,
             }))
         } catch (error: any) {
             console.error('resend-auth-email error', error)

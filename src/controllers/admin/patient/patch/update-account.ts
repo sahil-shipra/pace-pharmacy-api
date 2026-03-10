@@ -31,6 +31,7 @@ export async function updateAccount(accountId: number, input: AccountData) {
                     holderName: input.account.holderName,
                     designation: input.account.designation,
                     organizationName: input.account.organizationName,
+                    organizationType: input.account.organizationType,
                     contactPerson: input.account.contactPerson,
                     phone: input.account.phone,
                     emailAddress: input.account.emailAddress,

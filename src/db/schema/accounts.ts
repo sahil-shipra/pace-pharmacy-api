@@ -6,6 +6,7 @@ export const accounts = pgTable('accounts', {
     holderName: text('holder_name').notNull(),
     designation: text('designation'),
     organizationName: text('organization_name').notNull(),
+    organizationType: text('organization_type').default('general-medical').notNull(),
     contactPerson: text('contact_person').notNull(),
     phone: text('phone').notNull(),
     emailAddress: text('email_address').notNull().unique(),
