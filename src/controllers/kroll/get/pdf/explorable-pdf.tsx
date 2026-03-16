@@ -259,6 +259,15 @@ const ExportPDF = ({ data }: { data: PatientResponse }) => {
                 <View style={styles.hr} />
 
                 <View style={styles.labelRow}>
+                    <Text style={styles.label}>Contact Person :</Text>
+                    <Text style={styles.text}>
+                        {data.accounts.contactPerson}
+                    </Text>
+                </View>
+
+                <View style={styles.hr} />
+
+                <View style={styles.labelRow}>
                     <Text style={styles.label}>Billing Address :</Text>
                     <View>
                         <Text style={styles.text}>
