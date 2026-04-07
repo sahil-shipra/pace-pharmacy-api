@@ -8,6 +8,8 @@ export const medicalDirectors = pgTable('medical_directors', {
         .notNull()
         .unique(),
     isAlsoMedicalDirector: boolean('is_also_medical_director').default(false).notNull(),
+    firstName: text('first_name').notNull().default(''),
+    lastName: text('last_name').notNull().default(''),
     name: text('name'),
     licenseNo: text('license_no'),
     email: text('email'),

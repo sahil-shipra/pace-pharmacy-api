@@ -8,6 +8,8 @@ export const zClinicType = z.union([
 
 // Zod v4 Schema
 const accountSchema = z.object({
+    firstName: z.string().min(1, 'First name is required'),
+    lastName: z.string().min(1, 'Last name is required'),
     holderName: z.string().min(1, 'Holder name is required'),
     designation: z.string().min(1, 'Designation is required'),
     organizationName: z.string().min(1, 'Organization name is required'),
@@ -62,6 +64,8 @@ export const accountFormSchema = z.object({
 
 const medicalFormSchema = z.object({
     isAlsoMedicalDirector: z.boolean().optional().default(false),
+    firstName: z.string().min(1, 'First name is required'),
+    lastName: z.string().min(1, 'Last name is required'),
     name: z.string().min(1, 'Name is required'),
     licenseNo: z.string().optional().default(''),
     email: z.string().optional().default(''),

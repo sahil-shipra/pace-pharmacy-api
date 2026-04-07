@@ -1,6 +1,6 @@
 import { describeRoute, resolver, validator } from "hono-openapi";
 import { createFactory } from "hono/factory";
-import { requestSchema, responseSchema } from "./schema";
+import { responseSchema } from "./schema";
 import { createAccount, DatabaseError } from "./create-account";
 import { generateReferenceCode } from "../../../services";
 import { createErrorResponse, createSuccessResponse } from "../../_schemas";

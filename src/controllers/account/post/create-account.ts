@@ -29,6 +29,8 @@ export async function createAccount(input: CreateAccountRequest, referenceCode: 
         return await db.transaction(async (tx) => {
             // 1. Create main account
             const [account] = await tx.insert(accounts).values({
+                firstName: input.account.account.firstName,
+                lastName: input.account.account.lastName,
                 holderName: input.account.account.holderName,
                 designation: input.account.account.designation,
                 organizationName: input.account.account.organizationName,
@@ -100,6 +102,8 @@ export async function createAccount(input: CreateAccountRequest, referenceCode: 
             await tx.insert(medicalDirectors).values({
                 accountId: account.id,
                 isAlsoMedicalDirector: input.medical.isAlsoMedicalDirector,
+                firstName: input.medical.firstName,
+                lastName: input.medical.lastName,
                 name: input.medical.name,
                 licenseNo: input.medical.licenseNo,
                 email: input.medical.email,

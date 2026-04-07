@@ -8,6 +8,8 @@ import { zClinicType } from "@/controllers/account/post/schema";
 
 export const AccountSchema = z.object({
     id: z.number(),
+    firstName: z.string(),
+    lastName: z.string(),
     holderName: z.string(),
     designation: z.string(),
     organizationName: z.string(),
@@ -34,6 +36,8 @@ export const MedicalDirectorSchema = z.object({
     id: z.number(),
     accountId: z.number(),
     isAlsoMedicalDirector: z.boolean(),
+    firstName: z.string(),
+    lastName: z.string(),
     name: z.string(),
     licenseNo: z.string(),
     email: z.string().optional().default(''),

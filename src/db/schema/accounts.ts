@@ -3,6 +3,8 @@ import { pharmacyLocations } from './pharmacy-location';
 
 export const accounts = pgTable('accounts', {
     id: serial('id').primaryKey(),
+    firstName: text('first_name').notNull().default(''),
+    lastName: text('last_name').notNull().default(''),
     holderName: text('holder_name').notNull(),
     designation: text('designation'),
     organizationName: text('organization_name').notNull(),

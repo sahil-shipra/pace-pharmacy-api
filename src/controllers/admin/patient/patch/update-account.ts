@@ -28,6 +28,8 @@ export async function updateAccount(accountId: number, input: AccountData) {
             const [account] = await tx
                 .update(accounts)
                 .set({
+                    firstName: input.account.firstName,
+                    lastName: input.account.lastName,
                     holderName: input.account.holderName,
                     designation: input.account.designation,
                     organizationName: input.account.organizationName,
@@ -80,6 +82,8 @@ export async function updateAccount(accountId: number, input: AccountData) {
                     .update(medicalDirectors)
                     .set({
                         isAlsoMedicalDirector: input.medical_directors.isAlsoMedicalDirector,
+                        firstName: input.medical_directors.firstName,
+                        lastName: input.medical_directors.lastName,
                         name: input.medical_directors.name,
                         licenseNo: input.medical_directors.licenseNo,
                         email: input.medical_directors.email,
