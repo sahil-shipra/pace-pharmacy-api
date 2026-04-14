@@ -33,7 +33,7 @@ export async function getAllAccounts(
         conditions.push(
             or(
                 and(eq(krollStatus.status, 'pending'), eq(applications.isSubmitted, true)),
-                isNull(krollStatus.accountId)
+                // isNull(krollStatus.accountId)
             )!
         );
     }

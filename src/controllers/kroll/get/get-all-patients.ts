@@ -20,7 +20,7 @@ const getAllPatients = factory.createHandlers(
         },
     }),
     async (c) => {
-        const patients = await getAllAccounts();
+        const patients = await getAllAccounts(undefined, 'pending');
 
         return c.json(
             createSuccessResponse({
