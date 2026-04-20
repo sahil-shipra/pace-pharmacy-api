@@ -4,8 +4,6 @@ import { accounts, acknowledgements, addresses, deliverySettings, medicalDirecto
 import { applications } from "@/db/schema/applications";
 import { pharmacyLocations } from "@/db/schema/pharmacy-location";
 import { accountStatusTable } from "@/db/schema/account-status";
-import { documentsTable } from "@/db/schema/documents-table";
-import { supabase } from "@/services/supabase-client";
 import { krollStatus } from "@/db/schema/kroll-status";
 
 // Get complete account with all related data
@@ -151,6 +149,7 @@ export async function getCompleteAccount(accountId: number) {
             .leftJoin(medicalDirectors, eq(accounts.id, medicalDirectors.accountId))
             .leftJoin(paymentInformation, eq(accounts.id, paymentInformation.accountId))
             .leftJoin(applications, eq(accounts.id, applications.accountId))
+            .leftJoin(krollStatus, eq(accounts.id, krollStatus.accountId))
             .where(eq(accounts.id, accountId)),
         db.query.addresses.findMany({ where: eq(addresses.accountId, accountId) }),
     ]);

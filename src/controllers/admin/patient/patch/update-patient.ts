@@ -48,6 +48,9 @@ export const requestSchema = z.object({
     billingAddress: AddressSchema,
     shippingAddress: AddressSchema,
     medical_directors: MedicalDirectorSchema,
+    kroll_status: z.object({
+        status: z.enum(["complete", "pending"]).default("pending"),
+    })
 });
 
 const paramsSchema = z.object({

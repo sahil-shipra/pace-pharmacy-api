@@ -7,6 +7,7 @@ import {
 import { eq, and } from 'drizzle-orm';
 import { sql } from 'drizzle-orm/sql';
 import { AccountData } from './update-patient';
+import { krollStatus } from '@/db/schema/kroll-status';
 
 // Custom error class for database errors
 export class DatabaseError extends Error {
@@ -89,6 +90,15 @@ export async function updateAccount(accountId: number, input: AccountData) {
                         email: input.medical_directors.email,
                     })
                     .where(eq(medicalDirectors.id, input.medical_directors.id));
+            }
+
+            if (input.kroll_status) {
+                await tx
+                    .update(krollStatus)
+                    .set({
+                        status: input.kroll_status.status,
+                    })
+                    .where(eq(krollStatus.accountId, accountId));
             }
 
             return account;
