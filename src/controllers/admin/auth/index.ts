@@ -180,4 +180,60 @@ authRoute.get('/me', describeRoute({
     return c.json(createSuccessResponse({ user }));
 });
 
+// Update user data schema
+const updateUserSchema = z.object({
+    display_name: z.string().min(1).max(100),
+});
+
+// Add admin client (use service_role key, NOT anon key)
+const getSupabaseAdmin = () => {
+    return createClient(supabaseUrl, process.env.SUPABASE_SERVICE_ROLE_KEY!, {
+        auth: {
+            autoRefreshToken: false,
+            persistSession: false,
+        }
+    })
+}
+
+// Update user endpoint
+authRoute.patch('/me',
+    describeRoute({
+        tags: ["Auth"],
+        summary: "Update current user",
+        description: "Update current user's profile data such as display name",
+        responses: {
+            200: {
+                description: "Successful response",
+                content: {
+                    "application/json": {},
+                },
+            },
+        },
+    }),
+    authMiddleware,
+    validator("json", updateUserSchema),
+    async (c) => {
+        const { display_name } = c.req.valid("json");
+        const user = (c.var as any).user;  // already verified by authMiddleware
+        const supabaseAdmin = getSupabaseAdmin();
+
+        try {
+            const { data, error } = await supabaseAdmin.auth.admin.updateUserById(
+                user.id,
+                { user_metadata: { display_name } }
+            );
+
+            if (error) {
+                return c.json(createErrorResponse('Update failed', error.message), 400);
+            }
+
+            return c.json(createSuccessResponse({ user: data.user }));
+
+        } catch (error) {
+            console.log('error------>', error);
+            return c.json(createErrorResponse('', ''));
+        }
+    }
+);
+
 export default authRoute;
