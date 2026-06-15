@@ -27,20 +27,7 @@ export async function getAllAccounts(
     }
 
     if (status) {
-        if (status === 'complete') {
-            conditions.push(eq(krollStatus.status, status), eq(applications.isSubmitted, true));
-        }
-        if (status === 'pending') {
-            conditions.push(
-                and(
-                    eq(applications.isSubmitted, true),
-                    or(
-                        eq(krollStatus.status, 'pending'),
-                        isNull(krollStatus.accountId),
-                    )!,
-                )!,
-            );
-        }
+        conditions.push(eq(krollStatus.status, status), eq(applications.isSubmitted, true));
     } else {
         // Default: pending+submitted OR no krollStatus row
         conditions.push(
