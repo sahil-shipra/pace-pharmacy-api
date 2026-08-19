@@ -5,6 +5,7 @@ import { format } from "date-fns"
 import { supabase } from "@/services/supabase-client"
 import { documentsTable } from "@/db/schema/documents-table"
 import { db } from "@/db"
+import * as Sentry from "@sentry/bun";
 
 export const sendEmailToNewAccount = async (
     {
@@ -126,7 +127,7 @@ export const fileUpload = async (formData: FormData, referenceCode: string) => {
         const buffer = Buffer.concat(chunks);
         const now = new Date();
         const date = format(now, 'yyyyMMdd')
-        const fullPath = `public/documents/${date}/${referenceCode}/${Date.now()}_${file.name.replace(/ /g, "")}`
+        const fullPath = `public/documents/${date}/${referenceCode}/${Date.now()}_${sanitizeFilename(file.name.replace(/ /g, ""))}`
         const { data, error } = await supabase.storage
             .from(BucketName)
             .upload(fullPath, buffer, {
@@ -136,6 +137,7 @@ export const fileUpload = async (formData: FormData, referenceCode: string) => {
 
         if (error) {
             console.error('Upload error:', error);
+            Sentry.captureException(error);
             continue;
         }
         uploadedFiles.push({ referenceCode, ...data });
@@ -143,4 +145,20 @@ export const fileUpload = async (formData: FormData, referenceCode: string) => {
 
     await db.insert(documentsTable).values(uploadedFiles);
     return { uploadedFiles };
+}
+
+// utils/sanitizeFilename.ts
+export function sanitizeFilename(filename: string): string {
+    const lastDot = filename.lastIndexOf(".");
+    const name = lastDot !== -1 ? filename.slice(0, lastDot) : filename;
+    const ext = lastDot !== -1 ? filename.slice(lastDot) : "";
+
+    const cleanName = name
+        .normalize("NFKD")                // split accented chars from diacritics
+        .replace(/[\u0300-\u036f]/g, "")  // strip diacritics
+        .replace(/[^a-zA-Z0-9-_]+/g, "_") // replace anything not safe with _
+        .replace(/_+/g, "_")              // collapse repeats
+        .replace(/^_|_$/g, "");           // trim leading/trailing _
+
+    return `${cleanName || "file"}${ext.toLowerCase()}`;
 }

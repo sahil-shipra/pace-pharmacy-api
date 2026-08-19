@@ -11,11 +11,10 @@ export const SuccessResponseSchema = <T extends z.ZodTypeAny>(dataSchema: T) =>
 
 export const ErrorResponseSchema = z.object({
     success: z.literal(false),
-    error: z.object({
-        code: z.string(),
-        message: z.string(),
-        details: z.any().optional(),
-    }),
+    code: z.string(),
+    message: z.string(),
+    field: z.string().optional(),
+    fields: z.record(z.string(), z.string()).optional(),
     timestamp: z.iso.datetime().optional(),
 });
 
@@ -27,12 +26,29 @@ export const createSuccessResponse = <T>(data: T, message?: string) => ({
     timestamp: new Date().toISOString(),
 });
 
-export const createErrorResponse = (code: string, message: string, details?: any) => ({
-    success: false as const,
-    error: {
+type ErrorResponseOptions = {
+    field?: string;
+    fields?: Record<string, string>;
+};
+
+export const createErrorResponse = (
+    code: string,
+    message: string,
+    fieldOrOptions?: string | ErrorResponseOptions,
+) => {
+    const options: ErrorResponseOptions | undefined =
+        typeof fieldOrOptions === "string"
+            ? fieldOrOptions
+                ? { field: fieldOrOptions }
+                : undefined
+            : fieldOrOptions;
+
+    return {
+        success: false as const,
         code,
         message,
-        ...(details && { details }),
-    },
-    timestamp: new Date().toISOString(),
-});
+        ...(options?.field && { field: options.field }),
+        ...(options?.fields && { fields: options.fields }),
+        timestamp: new Date().toISOString(),
+    };
+};

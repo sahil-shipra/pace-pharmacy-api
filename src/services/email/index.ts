@@ -34,6 +34,7 @@ export async function sendSimpleEmail(
     // Initialize the client with your Server Token
     const client = new postmark.ServerClient(TOKEN);
     const env_mode = process.env.NODE_ENV
+    const send_mail = process.env.SEND_MAIL !== 'false';
 
     if (!TOKEN || !client) return;
 
@@ -62,15 +63,17 @@ export async function sendSimpleEmail(
             emailPayload.Cc = ccEmail;
             emailPayload.ReplyTo = ccEmail;
         }
-        const result = await client.sendEmail(emailPayload);
-        emailLogToDb(
-            result,
-            subject,
-            to
-        )
+        if (send_mail) {
+            const result = await client.sendEmail(emailPayload);
+            emailLogToDb(
+                result,
+                subject,
+                to
+            )
 
-        console.log('Email sent successfully!');
-        console.log('Message ID:', result.MessageID);
+            console.log('Email sent successfully!');
+            console.log('Message ID:', result.MessageID);
+        }
     } catch (error) {
         console.error('Error sending email:', error);
     }

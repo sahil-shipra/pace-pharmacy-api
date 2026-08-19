@@ -6,9 +6,24 @@ import { openAPIRouteHandler } from "hono-openapi";
 import { cors } from 'hono/cors'
 import appRoutes from "./routes";
 import { serveStatic } from 'hono/bun'
+import { sentry } from "@sentry/hono/bun";
 
 const app = new Hono();
-
+app.use(
+  sentry(app, {
+    dsn: "https://290333ea5344af71afdd6e73888fd279@o4511936472088576.ingest.us.sentry.io/4511936747208704",
+    dataCollection: {
+      // To disable sending user data and HTTP bodies, uncomment the lines below. For more info visit:
+      // https://docs.sentry.io/platforms/javascript/guides/hono/configuration/options/#dataCollection
+      // userInfo: false,
+      // httpBodies: [],
+    },
+    debug: true,
+    shouldHandleError(error) {
+      return true;
+    },
+  }),
+);
 app.use('/*', serveStatic({ root: './public/*' }))
 
 app.use('/api/*', cors({
@@ -25,7 +40,9 @@ app.use('/api/*', cors({
   ],
   credentials: true,
 }))
-app.use(etag(), logger());
+
+app.use(etag());
+app.use(logger());
 
 app.route("/api", appRoutes);
 
@@ -36,7 +53,7 @@ app.get(
     documentation: {
       info: {
         title: "Pace Pharmacy",
-        version: "1.1.6",
+        version: "1.2.1",
         description: "",
       },
     },
