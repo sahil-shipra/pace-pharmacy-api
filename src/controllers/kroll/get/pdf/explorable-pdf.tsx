@@ -378,7 +378,7 @@ const ExportPDF = ({ data }: { data: PatientResponse }) => {
                     "Pace Pharmacy is a compounding pharmacy and is not a drug manufacturer. Compounded medications will only be supplied and used within an established and valid patient-healthcare professional relationship and will not be resold or distributed to third parties.",
                     "Pace Pharmacy is available to provide medication information and patient counselling services.",
                 ].map((item, i) => (
-                    <View key={i} style={styles.listItem}>
+                    <View key={i} style={styles.listItem} wrap={false}>
                         <Text style={styles.listIndex}>{i + 1}.</Text>
                         <Text style={styles.text}>{item}</Text>
                     </View>
@@ -417,7 +417,7 @@ const ExportPDF = ({ data }: { data: PatientResponse }) => {
                     "Where an individual is not independently authorized to perform a controlled act, appropriate delegation and documentation are in place in accordance with applicable legislation and the requirements of my regulatory college.",
                     "Appropriate emergency training, procedures, equipment and supplies are in place for the medications and procedures being provided.",
                 ].map((item, i) => (
-                    <View key={i} style={styles.listItem}>
+                    <View key={i} style={styles.listItem} wrap={false}>
                         <Text style={styles.listIndex}>{i + 1}.</Text>
                         <Text style={styles.text}>{item}</Text>
                     </View>
