@@ -391,60 +391,62 @@ const ExportPDF = ({ data }: { data: PatientResponse }) => {
 
                 <View style={styles.hr} />
 
-                <View style={{ ...styles.labelRow, justifyContent: 'space-between', alignItems: 'baseline' }}>
-                    <View style={{ ...styles.labelRow, width: "50%", marginBottom: 0 }}>
-                        <Text style={styles.label}>Medical Director's Name :</Text>
-                        <Text style={styles.text}>
-                            {data.medical_directors?.name}
+                <View break>
+                    <View style={{ ...styles.labelRow, justifyContent: 'space-between', alignItems: 'baseline' }}>
+                        <View style={{ ...styles.labelRow, width: "50%", marginBottom: 0 }}>
+                            <Text style={styles.label}>Medical Director's Name :</Text>
+                            <Text style={styles.text}>
+                                {data.medical_directors?.name}
+                            </Text>
+                        </View>
+
+                        <View style={{ ...styles.labelRow, width: "50%", marginBottom: 0 }}>
+                            <Text style={styles.label}>License :</Text>
+                            <Text style={styles.text}>
+                                {data.medical_directors?.licenseNo}
+                            </Text>
+                        </View>
+                    </View>
+
+                    {/* Medical Director Confirmations */}
+                    <Text style={{ ...styles.text, marginBottom: 4, marginTop: 4 }}>
+                        For medications ordered or prescribed under my medical direction, I confirm that:
+                    </Text>
+
+                    {[
+                        "Individuals administering medications have been appropriately trained and assessed as competent to administer the medications provided.",
+                        "Where an individual is not independently authorized to perform a controlled act, appropriate delegation and documentation are in place in accordance with applicable legislation and the requirements of my regulatory college.",
+                        "Appropriate emergency training, procedures, equipment and supplies are in place for the medications and procedures being provided.",
+                    ].map((item, i) => (
+                        <View key={i} style={styles.listItem}>
+                            <Text style={styles.listIndex}>{i + 1}.</Text>
+                            <Text style={styles.text}>{item}</Text>
+                        </View>
+                    ))}
+
+                    <View style={{ ...styles.hr, marginTop: 6 }} />
+
+                    {/* Prescription Requirement */}
+                    <View style={styles.checkboxRow}>
+                        <Text style={styles.text}>[{(data.applications.prescriptionRequirement === 'withoutPrescription' || data.medical_directors.isAlsoMedicalDirector) ? '*' : ' '}]</Text>
+                        <Text style={{ ...styles.text, marginLeft: 6 }}>
+                            I authorize the following individuals —{' '}
+                            <Text style={styles.bold}>{data.applications.authorizedIndividuals || '_______________'}</Text>
+                            {' '}— to place orders under my name for{' '}
+                            <Text style={styles.bold}>{data.accounts.organizationName}</Text>,{' '}
+                            without a signed prescription for each order.
                         </Text>
                     </View>
 
-                    <View style={{ ...styles.labelRow, width: "50%", marginBottom: 0 }}>
-                        <Text style={styles.label}>License :</Text>
-                        <Text style={styles.text}>
-                            {data.medical_directors?.licenseNo}
-                        </Text>
+                    <View style={styles.checkboxRow}>
+                        <Text style={styles.text}>[{data.applications.prescriptionRequirement === 'withPrescription' ? '*' : ' '}]</Text>
+                        <Text style={{ ...styles.text, marginLeft: 6 }}>I require a signed prescription for each order.</Text>
                     </View>
-                </View>
 
-                {/* Medical Director Confirmations */}
-                <Text style={{ ...styles.text, marginBottom: 4 }}>
-                    For medications ordered or prescribed under my medical direction, I confirm that:
-                </Text>
-
-                {[
-                    "Individuals administering medications have been appropriately trained and assessed as competent to administer the medications provided.",
-                    "Where an individual is not independently authorized to perform a controlled act, appropriate delegation and documentation are in place in accordance with applicable legislation and the requirements of my regulatory college.",
-                    "Appropriate emergency training, procedures, equipment and supplies are in place for the medications and procedures being provided.",
-                ].map((item, i) => (
-                    <View key={i} style={styles.listItem} wrap={false}>
-                        <Text style={styles.listIndex}>{i + 1}.</Text>
-                        <Text style={styles.text}>{item}</Text>
-                    </View>
-                ))}
-
-                <View style={{ ...styles.hr, marginTop: 6 }} />
-
-                {/* Prescription Requirement */}
-                <View style={styles.checkboxRow}>
-                    <Text style={styles.text}>[{(data.applications.prescriptionRequirement === 'withoutPrescription' || data.medical_directors.isAlsoMedicalDirector) ? '*' : ' '}]</Text>
-                    <Text style={{ ...styles.text, marginLeft: 6 }}>
-                        I authorize the following individuals —{' '}
-                        <Text style={styles.bold}>{data.applications.authorizedIndividuals || '_______________'}</Text>
-                        {' '}— to place orders under my name for{' '}
-                        <Text style={styles.bold}>{data.accounts.organizationName}</Text>,{' '}
-                        without a signed prescription for each order.
+                    <Text style={styles.footnote}>
+                        *Please Return Forms by Email or Fax. Only Completed Forms Will Be Accepted*
                     </Text>
                 </View>
-
-                <View style={styles.checkboxRow}>
-                    <Text style={styles.text}>[{data.applications.prescriptionRequirement === 'withPrescription' ? '*' : ' '}]</Text>
-                    <Text style={{ ...styles.text, marginLeft: 6 }}>I require a signed prescription for each order.</Text>
-                </View>
-
-                <Text style={styles.footnote}>
-                    *Please Return Forms by Email or Fax. Only Completed Forms Will Be Accepted*
-                </Text>
             </Page>
         </Document>
     )
