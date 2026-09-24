@@ -376,8 +376,8 @@ const ExportPDF = ({ data }: { data: PatientResponse }) => {
                 </Text>
 
                 {[
-                    "All medications supplied to the clinic/organization will be used within an established patient healthcare professional relationship. An appropriately authorized healthcare professional will assess and document the clinical appropriateness of each medication for each patient before administering or dispensing.",
-                    "Pace Pharmacy is a compounding pharmacy and is not a drug manufacturer. Compounded medications will only be supplied within an established and valid patient-healthcare professional relationship and will not be resold or distributed to third parties.",
+                    "All medications supplied to the above clinic/organization will be used within an established patient-healthcare professional relationship. An appropriately authorized healthcare professional will assess and document the clinical appropriateness of each medication for each patient before administering or dispensing.",
+                    "Pace Pharmacy is a compounding pharmacy and is not a drug manufacturer. Compounded medications will only be supplied and used within an established and valid patient-healthcare professional relationship and will not be resold or distributed to third parties.",
                     "Pace Pharmacy is available to provide medication information and patient counselling services.",
                 ].map((item, i) => (
                     <View key={i} style={styles.listItem}>
@@ -417,7 +417,7 @@ const ExportPDF = ({ data }: { data: PatientResponse }) => {
 
                 {[
                     "Individuals administering medications have been appropriately trained and assessed as competent to administer the medications provided.",
-                    "Where an individual is not independently authorized to perform a controlled act, appropriate delegation and documentation are in place in accordance with applicable legislation and the requirements of your regulatory college.",
+                    "Where an individual is not independently authorized to perform a controlled act, appropriate delegation and documentation are in place in accordance with applicable legislation and the requirements of my regulatory college.",
                     "Appropriate emergency training, procedures, equipment and supplies are in place for the medications and procedures being provided.",
                 ].map((item, i) => (
                     <View key={i} style={{ ...styles.checkboxRow, marginVertical: 2 }}>
