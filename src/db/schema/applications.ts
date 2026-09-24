@@ -1,4 +1,4 @@
-import { pgTable, serial, integer, boolean, timestamp, varchar, pgEnum } from 'drizzle-orm/pg-core';
+import { pgTable, serial, integer, boolean, timestamp, varchar, text, pgEnum } from 'drizzle-orm/pg-core';
 import { accounts } from './accounts';
 import { sql } from 'drizzle-orm';
 
@@ -26,4 +26,8 @@ export const applications = pgTable('applications', {
     isSubmitted: boolean('is_submitted').notNull().default(false),
     submittedDate: timestamp('submitted_date', { withTimezone: true }),
     prescriptionRequirement: prescriptionEnum('prescription_requirement'),
+    confirmation1: boolean('confirmation_1'),
+    confirmation2: boolean('confirmation_2'),
+    confirmation3: boolean('confirmation_3'),
+    authorizedIndividuals: text('authorized_individuals'),
 });

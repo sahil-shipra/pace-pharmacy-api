@@ -40,6 +40,8 @@ export type PatientResponse = {
         organizationName: string;
         organizationType: "general-medical" | "aesthetics" | "naturopathic" | string;
         contactPerson: string;
+        contactPersonPhone: string | null;
+        contactPersonEmail: string | null;
         phone: string;
         emailAddress: string;
         fax: string;
@@ -52,8 +54,15 @@ export type PatientResponse = {
     acknowledgements: {
         id: number;
         accountId: number;
+        // Legacy
         nameToAcknowledge: string;
         acknowledgementConsent: boolean;
+        // Cardholder
+        cardholderName: string;
+        cardholderConsent: boolean;
+        // Account holder
+        accountHolderName: string;
+        accountHolderConsent: boolean;
         consentDate: string;
     };
     delivery_settings: {
@@ -99,6 +108,10 @@ export type PatientResponse = {
         isSubmitted: boolean;
         submittedDate: string | null;
         prescriptionRequirement: "withPrescription" | "withoutPrescription" | null;
+        confirmation1: boolean | null;
+        confirmation2: boolean | null;
+        confirmation3: boolean | null;
+        authorizedIndividuals: string | null;
     };
     documents?: DocumentsType;
     addresses: Array<{
@@ -261,9 +274,23 @@ const ExportPDF = ({ data }: { data: PatientResponse }) => {
                 <View style={styles.labelRow}>
                     <Text style={styles.label}>Contact Person :</Text>
                     <Text style={styles.text}>
-                        {data.accounts.contactPerson}
+                        {data.accounts.contactPerson || '—'}
                     </Text>
                 </View>
+
+                {data.accounts.contactPersonPhone ? (
+                    <View style={styles.labelRow}>
+                        <Text style={styles.label}>Contact Person Phone :</Text>
+                        <Text style={styles.text}>{data.accounts.contactPersonPhone}</Text>
+                    </View>
+                ) : null}
+
+                {data.accounts.contactPersonEmail ? (
+                    <View style={styles.labelRow}>
+                        <Text style={styles.label}>Contact Person Email :</Text>
+                        <Text style={styles.text}>{data.accounts.contactPersonEmail}</Text>
+                    </View>
+                ) : null}
 
                 <View style={styles.hr} />
 
@@ -329,21 +356,29 @@ const ExportPDF = ({ data }: { data: PatientResponse }) => {
 
                 <View style={styles.hr} />
 
+                {/* Cardholder Acknowledgement */}
+                <Text style={{ ...styles.text, fontWeight: 'bold', marginBottom: 4 }}>Cardholder Acknowledgement</Text>
                 <Text style={styles.text}>
-                    <Text style={styles.bold}>I {data.accounts.holderName}</Text>, am financially responsible for all purchases made on this account. I will keep it current
+                    <Text style={styles.bold}>I {data.acknowledgements?.cardholderName || data.accounts.holderName}</Text>, am financially responsible for all purchases made on this account. I will keep it current
                     and agree to maintain the account in good standing. I acknowledge that a late fee will apply to late payments, and a restocking fee to orders never picked up.
                 </Text>
+                <Text style={{ ...styles.text, marginTop: 6 }}>
+                    I authorize Pace Pharmacy to process my account according to the terms above and confirm that I have read and understand all acknowledgements on{" "}
+                    <Text style={styles.bold}>{format(new Date(data.accounts.createdAt), 'dd MMM yyyy')}</Text>.
+                </Text>
 
-                <Text style={{ ...styles.text, marginTop: 8, marginBottom: 6 }}>
-                    <Text style={styles.bold}>I {data.accounts.holderName}</Text>, acknowledge all of the following:
+                <View style={{ ...styles.hr, marginTop: 6 }} />
+
+                {/* Account Holder Acknowledgement */}
+                <Text style={{ ...styles.text, fontWeight: 'bold', marginBottom: 4 }}>Account Holder Acknowledgement</Text>
+                <Text style={{ ...styles.text, marginBottom: 6 }}>
+                    <Text style={styles.bold}>I {data.acknowledgements?.accountHolderName || data.accounts.holderName}</Text>, acknowledge all of the following:
                 </Text>
 
                 {[
-                    "Pace Pharmacy is not a manufacturer, and",
-                    "Compounded products are only to be used within an established and valid patient-healthcare professional relationship, and",
-                    "Compounded products may not be sold to a third party, and",
-                    "A healthcare professional must assess and document the clinical appropriateness for every patient, and",
-                    "Pace Pharmacy is available to answer patients' questions and offer counselling on our compounded products.",
+                    "All medications supplied to the clinic/organization will be used within an established patient healthcare professional relationship. An appropriately authorized healthcare professional will assess and document the clinical appropriateness of each medication for each patient before administering or dispensing.",
+                    "Pace Pharmacy is a compounding pharmacy and is not a drug manufacturer. Compounded medications will only be supplied within an established and valid patient-healthcare professional relationship and will not be resold or distributed to third parties.",
+                    "Pace Pharmacy is available to provide medication information and patient counselling services.",
                 ].map((item, i) => (
                     <View key={i} style={styles.listItem}>
                         <Text style={styles.listIndex}>{i + 1}.</Text>
@@ -351,7 +386,7 @@ const ExportPDF = ({ data }: { data: PatientResponse }) => {
                     </View>
                 ))}
 
-                <Text style={{ ...styles.text, marginTop: 8 }}>
+                <Text style={{ ...styles.text, marginTop: 6 }}>
                     I authorize Pace Pharmacy to process my account according to the terms above and confirm that I have read and understand all acknowledgements on{" "}
                     <Text style={styles.bold}>{format(new Date(data.accounts.createdAt), 'dd MMM yyyy')}</Text>.
                 </Text>
@@ -374,26 +409,54 @@ const ExportPDF = ({ data }: { data: PatientResponse }) => {
                     </View>
                 </View>
 
+                {/* Medical Director Confirmations */}
+                <Text style={{ ...styles.text, fontWeight: 'bold', marginBottom: 4 }}>Medical Director Confirmations</Text>
+                <Text style={{ ...styles.text, marginBottom: 4 }}>
+                    For medications ordered or prescribed under my medical direction, I confirm that:
+                </Text>
+
+                {[
+                    "Individuals administering medications have been appropriately trained and assessed as competent to administer the medications provided.",
+                    "Where an individual is not independently authorized to perform a controlled act, appropriate delegation and documentation are in place in accordance with applicable legislation and the requirements of your regulatory college.",
+                    "Appropriate emergency training, procedures, equipment and supplies are in place for the medications and procedures being provided.",
+                ].map((item, i) => (
+                    <View key={i} style={{ ...styles.checkboxRow, marginVertical: 2 }}>
+                        <Text style={styles.text}>
+                            [{[data.applications.confirmation1, data.applications.confirmation2, data.applications.confirmation3][i] ? '*' : ' '}]
+                        </Text>
+                        <Text style={{ ...styles.text, marginLeft: 6 }}>{item}</Text>
+                    </View>
+                ))}
+
+                <View style={{ ...styles.hr, marginTop: 6 }} />
+
+                {/* Prescription Requirement */}
+                <Text style={{ ...styles.text, fontWeight: 'bold', marginBottom: 4 }}>Prescription Requirement</Text>
+
                 <Text style={{ ...styles.text, marginTop: 6 }}>
-                    I authorize Pace Pharmacy to process my account according to the terms above and confirm that I have read and understand all acknowledgements on{" "}
+                    Authorization completed on{" "}
                     <Text style={styles.bold}>
                         {data.applications && data.applications.submittedDate
-                            ? format(
-                                new Date(data.applications.submittedDate),
-                                "dd MMM yyyy"
-                            )
+                            ? format(new Date(data.applications.submittedDate), "dd MMM yyyy")
                             : ""}
                     </Text>.
                 </Text>
 
                 <View style={styles.checkboxRow}>
-                    <Text style={styles.text}>[{(data.applications.prescriptionRequirement === 'withoutPrescription' || data.medical_directors.isAlsoMedicalDirector) && '*'}]</Text>
+                    <Text style={styles.text}>[{(data.applications.prescriptionRequirement === 'withoutPrescription' || data.medical_directors.isAlsoMedicalDirector) ? '*' : ' '}]</Text>
                     <Text style={{ ...styles.text, marginLeft: 6 }}>
-                        I authorize <Text style={styles.bold}>{data.accounts.holderName}</Text> account holder to order under my name for <Text style={styles.bold}>{data.accounts.organizationName}</Text> at their discretion, <Text style={styles.bold}>Without a written and signed prescription for each order.</Text>
+                        I authorize the following individuals —{' '}
+                        <Text style={styles.bold}>{data.applications.authorizedIndividuals || '_______________'}</Text>
+                        {' '}— to place orders under my name for{' '}
+                        <Text style={styles.bold}>{data.accounts.organizationName}</Text>,{' '}
+                        without a signed prescription for each order.
                     </Text>
                 </View>
 
-                <Text style={styles.text}>[{data.applications.prescriptionRequirement === 'withPrescription' && '*'}] I require a written and signed prescription for each order under my medical direction.</Text>
+                <View style={styles.checkboxRow}>
+                    <Text style={styles.text}>[{data.applications.prescriptionRequirement === 'withPrescription' ? '*' : ' '}]</Text>
+                    <Text style={{ ...styles.text, marginLeft: 6 }}>I require a signed prescription for each order.</Text>
+                </View>
 
                 <Text style={styles.footnote}>
                     *Please Return Forms by Email or Fax. Only Completed Forms Will Be Accepted*

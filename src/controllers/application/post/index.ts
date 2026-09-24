@@ -21,7 +21,17 @@ const querySchema = z.object({
     accountAuthorization: z.boolean().refine(val => val === true, {
         message: 'You must authorize your account.'
     }),
+    confirmation1: z.boolean().refine(val => val === true, {
+        message: 'You must confirm this item.'
+    }),
+    confirmation2: z.boolean().refine(val => val === true, {
+        message: 'You must confirm this item.'
+    }),
+    confirmation3: z.boolean().refine(val => val === true, {
+        message: 'You must confirm this item.'
+    }),
     prescriptionRequirement: z.enum(['withPrescription', 'withoutPrescription']),
+    authorizedIndividuals: z.string().optional().default(''),
     medicalDirectorEmail: z.string().default('')
 });
 
@@ -77,6 +87,10 @@ const postApplication = factory.createHandlers(describeRoute({
                 isSubmitted: true,
                 isExpired: true,
                 prescriptionRequirement: data.prescriptionRequirement,
+                confirmation1: data.confirmation1,
+                confirmation2: data.confirmation2,
+                confirmation3: data.confirmation3,
+                authorizedIndividuals: data.authorizedIndividuals || null,
                 submittedDate: sql`NOW()`
             }).where(eq(applications.referenceCode, data.referenceCode))
 
@@ -100,7 +114,8 @@ const postApplication = factory.createHandlers(describeRoute({
                                 accountHolderName: account.accounts?.holderName || '',
                                 medicalDirectorName: account.medical_directors?.name || '',
                                 organizationName: account.accounts?.organizationName || '',
-                                prescriptionRequirement: data.prescriptionRequirement === 'withPrescription',
+                                prescriptionRequirement: data.prescriptionRequirement,
+                                authorizedIndividuals: data.authorizedIndividuals || '',
                                 referenceCode: data.referenceCode,
                                 dateTime
                             }

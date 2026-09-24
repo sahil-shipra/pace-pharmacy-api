@@ -15,6 +15,8 @@ const accountSchema = z.object({
     organizationName: z.string().min(1, 'Organization name is required'),
     clinicType: zClinicType,
     contactPerson: z.string().optional().default(''),
+    contactPersonPhone: z.string().optional().default(''),
+    contactPersonEmail: z.string().optional().default(''),
 });
 
 const addressSchema = z.object({
@@ -93,8 +95,10 @@ export const paymentFormSchema = z.object({
 
 
 export const ackFormSchema = z.object({
-    nameToAcknowledge: z.string().min(1, 'Name is required'),
-    acknowledgementConsent: z.boolean().default(false),
+    cardholderName: z.string().min(1, 'Cardholder name is required'),
+    cardholderConsent: z.boolean().default(false),
+    accountHolderName: z.string().min(1, 'Account holder name is required'),
+    accountHolderConsent: z.boolean().default(false),
 });
 
 // TypeScript Types (inferred from Zod schema)

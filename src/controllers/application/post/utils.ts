@@ -5,6 +5,7 @@ export function medicalDirectorCompletionConfirmation(
     referenceCode,
     organizationName,
     prescriptionRequirement,
+    authorizedIndividuals,
     dateTime
   }:
     {
@@ -12,55 +13,67 @@ export function medicalDirectorCompletionConfirmation(
       medicalDirectorName: string;
       referenceCode: string;
       organizationName: string;
-      prescriptionRequirement: boolean;
+      prescriptionRequirement: 'withPrescription' | 'withoutPrescription';
+      authorizedIndividuals: string;
       dateTime: string
     }
 ) {
-  return `
-               <div style="padding: 8px; font-size: 14px;">
-        <div style="margin-bottom:18px;">
-            Dear ${medicalDirectorName},
-        </div>
+  const prescriptionText = prescriptionRequirement === 'withPrescription'
+    ? `I require a signed prescription for each order.`
+    : `I authorize the following individuals — ${authorizedIndividuals} — to place orders under my name for ${organizationName}, without a signed prescription for each order.`;
 
-        <div style="margin-bottom:18px;">
-            Thank you for completing your authorization for the Pace Pharmacy professional account application.
-        </div>
+  return `<div style="padding: 8px; font-size: 14px;">
+    <div style="margin-bottom:18px;">
+      Dear ${medicalDirectorName},
+    </div>
 
-        <div style="margin-bottom:18px;">
-            <div style="margin: 8px 0;"><strong>Application Reference:</strong> ${referenceCode} </div>
-            <div style="margin: 8px 0;"><strong>Account Holder:</strong> ${accountHolderName} </div>
-            <div style="margin: 8px 0;"><strong>Clinic/Organization:</strong> ${organizationName} </div>
-            <div style="margin: 8px 0;"><strong>Authorization Completed:</strong> ${dateTime} </div>
-            <div style="margin: 8px 0;"><strong>Prescription Requirement:</strong> ${prescriptionRequirement ?
-      `Required a written and signed prescription for each order.` :
-      `Without a written and signed prescription for each order.`
-    } </div>
-        </div>
+    <div style="margin-bottom:18px;">
+      Thank you for completing your authorization for the Pace Pharmacy professional account application.
+    </div>
 
-        <div style="margin-bottom:18px;">
-            The complete application has been submitted to Pace Pharmacy for review. Both you and ${accountHolderName} will receive confirmation once the account is activated.
-        </div>
+    <div style="margin-bottom:18px;">
+      <div style="margin: 8px 0;"><strong>Application Reference:</strong> ${referenceCode}</div>
+      <div style="margin: 8px 0;"><strong>Account Holder:</strong> ${accountHolderName}</div>
+      <div style="margin: 8px 0;"><strong>Clinic/Organization:</strong> ${organizationName}</div>
+      <div style="margin: 8px 0;"><strong>Authorization Completed:</strong> ${dateTime}</div>
+      <div style="margin: 8px 0;"><strong>Prescription Requirement:</strong> ${prescriptionText}</div>
+    </div>
+
+    <div style="margin-bottom:10px;">
+      <strong>Medical Director Confirmations</strong>
+    </div>
+
+    <div style="margin-bottom:10px;">
+      For medications ordered or prescribed under your medical direction, you confirmed that:
+    </div>
+
+    <ul style="margin:0 0 18px 0; padding-left:18px; line-height:1.7;">
+      <li style="margin-bottom:6px;">Individuals administering medications have been appropriately trained and assessed as competent to administer the medications provided.</li>
+      <li style="margin-bottom:6px;">Where an individual is not independently authorized to perform a controlled act, appropriate delegation and documentation are in place in accordance with applicable legislation and the requirements of your regulatory college.</li>
+      <li style="margin-bottom:6px;">Appropriate emergency training, procedures, equipment and supplies are in place for the medications and procedures being provided.</li>
+    </ul>
+
+    <div style="margin-bottom:18px;">
+      The complete application has now been submitted to Pace Pharmacy for review. Both you and ${accountHolderName} will receive confirmation once the account is activated.
+    </div>
 
     <div style="margin-bottom:10px;">
       If you have any questions while we process your application, please contact us:
     </div>
 
     <div style="margin-bottom:6px;">
-     <strong> Leaside: </strong>
-      <span style="font-weight:500;">416-423-6223</span> | <a href="mailto:rx@pacepharmacy.com" style="color:#0b63c6; text-decoration:underline;">rx@pacepharmacy.com</a>
+      <strong>Leaside:</strong> <span style="font-weight:500;">416-423-6223</span> | <a href="mailto:rx@pacepharmacy.com" style="color:#0b63c6; text-decoration:underline;">rx@pacepharmacy.com</a>
     </div>
 
     <div style="margin-bottom:22px;">
-     <strong> Downtown: </strong>
-     <span style="font-weight:500;">416-515-7223</span> | <a href="mailto:info@pacepharmacy.com" style="color:#0b63c6; text-decoration:underline;">info@pacepharmacy.com</a>
+      <strong>Downtown:</strong> <span style="font-weight:500;">416-515-7223</span> | <a href="mailto:info@pacepharmacy.com" style="color:#0b63c6; text-decoration:underline;">info@pacepharmacy.com</a>
     </div>
 
     <div style="margin-top:12px;">
       Sincerely,<br>
       Pace Pharmacy Team
     </div>
-
-    </div>`
+  </div>`
 }
 
 export function accountHolderAuthorizationComplete(

@@ -36,6 +36,8 @@ export async function createAccount(input: CreateAccountRequest, referenceCode: 
                 organizationName: input.account.account.organizationName,
                 organizationType: input.account.account.clinicType,
                 contactPerson: input.account.account.contactPerson,
+                contactPersonPhone: input.account.account.contactPersonPhone || null,
+                contactPersonEmail: input.account.account.contactPersonEmail || null,
                 phone: input.account.phone,
                 emailAddress: input.account.emailAddress,
                 fax: input.account.fax,
@@ -94,8 +96,14 @@ export async function createAccount(input: CreateAccountRequest, referenceCode: 
             // 6. Create acknowledgement
             await tx.insert(acknowledgements).values({
                 accountId: account.id,
-                nameToAcknowledge: input.acknowledgements.nameToAcknowledge,
-                acknowledgementConsent: input.acknowledgements.acknowledgementConsent,
+                // Legacy columns — populated with cardholder values for backward compatibility
+                nameToAcknowledge: input.acknowledgements.cardholderName,
+                acknowledgementConsent: input.acknowledgements.cardholderConsent,
+                // New columns
+                cardholderName: input.acknowledgements.cardholderName,
+                cardholderConsent: input.acknowledgements.cardholderConsent,
+                accountHolderName: input.acknowledgements.accountHolderName,
+                accountHolderConsent: input.acknowledgements.accountHolderConsent,
             });
 
             // 7. Create medical director information
