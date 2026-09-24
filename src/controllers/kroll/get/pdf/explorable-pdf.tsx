@@ -357,7 +357,6 @@ const ExportPDF = ({ data }: { data: PatientResponse }) => {
                 <View style={styles.hr} />
 
                 {/* Cardholder Acknowledgement */}
-                <Text style={{ ...styles.text, fontWeight: 'bold', marginBottom: 4 }}>Cardholder Acknowledgement</Text>
                 <Text style={styles.text}>
                     <Text style={styles.bold}>I {data.acknowledgements?.cardholderName || data.accounts.holderName}</Text>, am financially responsible for all purchases made on this account. I will keep it current
                     and agree to maintain the account in good standing. I acknowledge that a late fee will apply to late payments, and a restocking fee to orders never picked up.
@@ -370,7 +369,6 @@ const ExportPDF = ({ data }: { data: PatientResponse }) => {
                 <View style={{ ...styles.hr, marginTop: 6 }} />
 
                 {/* Account Holder Acknowledgement */}
-                <Text style={{ ...styles.text, fontWeight: 'bold', marginBottom: 4 }}>Account Holder Acknowledgement</Text>
                 <Text style={{ ...styles.text, marginBottom: 6 }}>
                     <Text style={styles.bold}>I {data.acknowledgements?.accountHolderName || data.accounts.holderName}</Text>, acknowledge all of the following:
                 </Text>
@@ -410,7 +408,6 @@ const ExportPDF = ({ data }: { data: PatientResponse }) => {
                 </View>
 
                 {/* Medical Director Confirmations */}
-                <Text style={{ ...styles.text, fontWeight: 'bold', marginBottom: 4 }}>Medical Director Confirmations</Text>
                 <Text style={{ ...styles.text, marginBottom: 4 }}>
                     For medications ordered or prescribed under my medical direction, I confirm that:
                 </Text>
@@ -420,28 +417,15 @@ const ExportPDF = ({ data }: { data: PatientResponse }) => {
                     "Where an individual is not independently authorized to perform a controlled act, appropriate delegation and documentation are in place in accordance with applicable legislation and the requirements of my regulatory college.",
                     "Appropriate emergency training, procedures, equipment and supplies are in place for the medications and procedures being provided.",
                 ].map((item, i) => (
-                    <View key={i} style={{ ...styles.checkboxRow, marginVertical: 2 }}>
-                        <Text style={styles.text}>
-                            [{[data.applications.confirmation1, data.applications.confirmation2, data.applications.confirmation3][i] ? '*' : ' '}]
-                        </Text>
-                        <Text style={{ ...styles.text, marginLeft: 6 }}>{item}</Text>
+                    <View key={i} style={styles.listItem}>
+                        <Text style={styles.listIndex}>{i + 1}.</Text>
+                        <Text style={styles.text}>{item}</Text>
                     </View>
                 ))}
 
                 <View style={{ ...styles.hr, marginTop: 6 }} />
 
                 {/* Prescription Requirement */}
-                <Text style={{ ...styles.text, fontWeight: 'bold', marginBottom: 4 }}>Prescription Requirement</Text>
-
-                <Text style={{ ...styles.text, marginTop: 6 }}>
-                    Authorization completed on{" "}
-                    <Text style={styles.bold}>
-                        {data.applications && data.applications.submittedDate
-                            ? format(new Date(data.applications.submittedDate), "dd MMM yyyy")
-                            : ""}
-                    </Text>.
-                </Text>
-
                 <View style={styles.checkboxRow}>
                     <Text style={styles.text}>[{(data.applications.prescriptionRequirement === 'withoutPrescription' || data.medical_directors.isAlsoMedicalDirector) ? '*' : ' '}]</Text>
                     <Text style={{ ...styles.text, marginLeft: 6 }}>
